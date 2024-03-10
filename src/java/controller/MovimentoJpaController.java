@@ -9,8 +9,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import modelo.Movimento;
@@ -24,15 +24,31 @@ import modelo.Utilizador;
  */
 public class MovimentoJpaController implements Serializable {
 
+
+    /**
+     *
+     */
+    private EntityManagerFactory emf = null;
+    /**
+     *
+     * @param emf
+     */
     public MovimentoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     *
+     * @param movimento
+     */
     public void create(Movimento movimento) {
         EntityManager em = null;
         try {
@@ -74,6 +90,12 @@ public class MovimentoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param movimento
+     * @throws NonexistentEntityException
+     * @throws Exception
+     */
     public void edit(Movimento movimento) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -140,6 +162,11 @@ public class MovimentoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @throws NonexistentEntityException
+     */
     public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -176,14 +203,31 @@ public class MovimentoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Movimento> findMovimentoEntities() {
         return findMovimentoEntities(true, -1, -1);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     public List<Movimento> findMovimentoEntities(int maxResults, int firstResult) {
         return findMovimentoEntities(false, maxResults, firstResult);
     }
 
+    /**
+     *
+     * @param all
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     private List<Movimento> findMovimentoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -200,6 +244,11 @@ public class MovimentoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Movimento findMovimento(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -209,6 +258,10 @@ public class MovimentoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getMovimentoCount() {
         EntityManager em = getEntityManager();
         try {

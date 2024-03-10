@@ -9,8 +9,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import modelo.Pedido;
@@ -23,15 +23,31 @@ import modelo.TratamentoPedido;
  */
 public class TratamentoPedidoJpaController implements Serializable {
 
+
+    /**
+     *
+     */
+    private EntityManagerFactory emf = null;
+    /**
+     *
+     * @param emf
+     */
     public TratamentoPedidoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     *
+     * @param tratamentoPedido
+     */
     public void create(TratamentoPedido tratamentoPedido) {
         EntityManager em = null;
         try {
@@ -64,6 +80,12 @@ public class TratamentoPedidoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param tratamentoPedido
+     * @throws NonexistentEntityException
+     * @throws Exception
+     */
     public void edit(TratamentoPedido tratamentoPedido) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -116,6 +138,11 @@ public class TratamentoPedidoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @throws NonexistentEntityException
+     */
     public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -147,14 +174,31 @@ public class TratamentoPedidoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<TratamentoPedido> findTratamentoPedidoEntities() {
         return findTratamentoPedidoEntities(true, -1, -1);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     public List<TratamentoPedido> findTratamentoPedidoEntities(int maxResults, int firstResult) {
         return findTratamentoPedidoEntities(false, maxResults, firstResult);
     }
 
+    /**
+     *
+     * @param all
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     private List<TratamentoPedido> findTratamentoPedidoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -171,6 +215,11 @@ public class TratamentoPedidoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public TratamentoPedido findTratamentoPedido(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -180,6 +229,10 @@ public class TratamentoPedidoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getTratamentoPedidoCount() {
         EntityManager em = getEntityManager();
         try {

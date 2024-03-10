@@ -7,16 +7,16 @@ package controller;
 import controller.exceptions.IllegalOrphanException;
 import controller.exceptions.NonexistentEntityException;
 import java.io.Serializable;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import modelo.Cta;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import modelo.Cargo;
+import modelo.Cta;
 
 /**
  *
@@ -24,24 +24,40 @@ import modelo.Cargo;
  */
 public class CargoJpaController implements Serializable {
 
+
+    /**
+     *
+     */
+    private EntityManagerFactory emf = null;
+    /**
+     *
+     * @param emf
+     */
     public CargoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     *
+     * @param cargo
+     */
     public void create(Cargo cargo) {
         if (cargo.getCtaList() == null) {
-            cargo.setCtaList(new ArrayList<Cta>());
+            cargo.setCtaList(new ArrayList<>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Cta> attachedCtaList = new ArrayList<Cta>();
+            List<Cta> attachedCtaList = new ArrayList<>();
             for (Cta ctaListCtaToAttach : cargo.getCtaList()) {
                 ctaListCtaToAttach = em.getReference(ctaListCtaToAttach.getClass(), ctaListCtaToAttach.getUtilizador());
                 attachedCtaList.add(ctaListCtaToAttach);
@@ -65,6 +81,13 @@ public class CargoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param cargo
+     * @throws IllegalOrphanException
+     * @throws NonexistentEntityException
+     * @throws Exception
+     */
     public void edit(Cargo cargo) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -77,7 +100,7 @@ public class CargoJpaController implements Serializable {
             for (Cta ctaListOldCta : ctaListOld) {
                 if (!ctaListNew.contains(ctaListOldCta)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain Cta " + ctaListOldCta + " since its cargo field is not nullable.");
                 }
@@ -85,7 +108,7 @@ public class CargoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            List<Cta> attachedCtaListNew = new ArrayList<Cta>();
+            List<Cta> attachedCtaListNew = new ArrayList<>();
             for (Cta ctaListNewCtaToAttach : ctaListNew) {
                 ctaListNewCtaToAttach = em.getReference(ctaListNewCtaToAttach.getClass(), ctaListNewCtaToAttach.getUtilizador());
                 attachedCtaListNew.add(ctaListNewCtaToAttach);
@@ -121,6 +144,12 @@ public class CargoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @throws IllegalOrphanException
+     * @throws NonexistentEntityException
+     */
     public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -137,7 +166,7 @@ public class CargoJpaController implements Serializable {
             List<Cta> ctaListOrphanCheck = cargo.getCtaList();
             for (Cta ctaListOrphanCheckCta : ctaListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Cargo (" + cargo + ") cannot be destroyed since the Cta " + ctaListOrphanCheckCta + " in its ctaList field has a non-nullable cargo field.");
             }
@@ -153,14 +182,31 @@ public class CargoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Cargo> findCargoEntities() {
         return findCargoEntities(true, -1, -1);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     public List<Cargo> findCargoEntities(int maxResults, int firstResult) {
         return findCargoEntities(false, maxResults, firstResult);
     }
 
+    /**
+     *
+     * @param all
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     private List<Cargo> findCargoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -177,6 +223,11 @@ public class CargoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Cargo findCargo(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -186,6 +237,10 @@ public class CargoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getCargoCount() {
         EntityManager em = getEntityManager();
         try {

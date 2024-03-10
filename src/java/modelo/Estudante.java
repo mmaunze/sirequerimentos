@@ -31,65 +31,132 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Estudante.findByNivel", query = "SELECT e FROM Estudante e WHERE e.nivel = :nivel")})
 public class Estudante implements Serializable {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
     @Id
     @Basic(optional = false)
     @Column(nullable = false)
     private Long utilizador;
+
+    /**
+     *
+     */
     @Basic(optional = false)
     @Column(nullable = false)
     private long nivel;
+
+    /**
+     *
+     */
     @JoinColumn(name = "curso", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Curso curso;
+
+    /**
+     *
+     */
     @JoinColumn(name = "utilizador", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     @OneToOne(optional = false, fetch = FetchType.EAGER)
     private Utilizador utilizador1;
 
+    /**
+     *
+     */
     public Estudante() {
     }
 
+    /**
+     *
+     * @param utilizador
+     */
     public Estudante(Long utilizador) {
         this.utilizador = utilizador;
     }
 
+    /**
+     *
+     * @param utilizador
+     * @param nivel
+     */
     public Estudante(Long utilizador, long nivel) {
         this.utilizador = utilizador;
         this.nivel = nivel;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getUtilizador() {
         return utilizador;
     }
 
+    /**
+     *
+     * @param utilizador
+     */
     public void setUtilizador(Long utilizador) {
         this.utilizador = utilizador;
     }
 
+    /**
+     *
+     * @return
+     */
     public long getNivel() {
         return nivel;
     }
 
+    /**
+     *
+     * @param nivel
+     */
     public void setNivel(long nivel) {
         this.nivel = nivel;
     }
 
+    /**
+     *
+     * @return
+     */
     public Curso getCurso() {
         return curso;
     }
 
+    /**
+     *
+     * @param curso
+     */
     public void setCurso(Curso curso) {
         this.curso = curso;
     }
 
+    /**
+     *
+     * @return
+     */
     public Utilizador getUtilizador1() {
         return utilizador1;
     }
 
+    /**
+     *
+     * @param utilizador1
+     */
     public void setUtilizador1(Utilizador utilizador1) {
         this.utilizador1 = utilizador1;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -97,6 +164,11 @@ public class Estudante implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -110,6 +182,10 @@ public class Estudante implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "modelo.Estudante[ utilizador=" + utilizador + " ]";

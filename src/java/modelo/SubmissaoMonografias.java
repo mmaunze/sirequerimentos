@@ -35,56 +35,111 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SubmissaoMonografias.findByDataLimiteSubmissao", query = "SELECT s FROM SubmissaoMonografias s WHERE s.dataLimiteSubmissao = :dataLimiteSubmissao")})
 public class SubmissaoMonografias implements Serializable {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
     private Long id;
+
+    /**
+     *
+     */
     @Basic(optional = false)
     @Column(name = "data_limite_submissao", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date dataLimiteSubmissao;
+
+    /**
+     *
+     */
     @JoinColumn(name = "pedido", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Pedido pedido;
 
+    /**
+     *
+     */
     public SubmissaoMonografias() {
     }
 
+    /**
+     *
+     * @param id
+     */
     public SubmissaoMonografias(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @param id
+     * @param dataLimiteSubmissao
+     */
     public SubmissaoMonografias(Long id, Date dataLimiteSubmissao) {
         this.id = id;
         this.dataLimiteSubmissao = dataLimiteSubmissao;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public Date getDataLimiteSubmissao() {
         return dataLimiteSubmissao;
     }
 
+    /**
+     *
+     * @param dataLimiteSubmissao
+     */
     public void setDataLimiteSubmissao(Date dataLimiteSubmissao) {
         this.dataLimiteSubmissao = dataLimiteSubmissao;
     }
 
+    /**
+     *
+     * @return
+     */
     public Pedido getPedido() {
         return pedido;
     }
 
+    /**
+     *
+     * @param pedido
+     */
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -92,6 +147,11 @@ public class SubmissaoMonografias implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -105,6 +165,10 @@ public class SubmissaoMonografias implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "modelo.SubmissaoMonografias[ id=" + id + " ]";

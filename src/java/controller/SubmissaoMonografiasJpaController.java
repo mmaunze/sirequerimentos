@@ -9,8 +9,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import modelo.Pedido;
@@ -22,15 +22,31 @@ import modelo.SubmissaoMonografias;
  */
 public class SubmissaoMonografiasJpaController implements Serializable {
 
+
+    /**
+     *
+     */
+    private EntityManagerFactory emf = null;
+    /**
+     *
+     * @param emf
+     */
     public SubmissaoMonografiasJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     *
+     * @param submissaoMonografias
+     */
     public void create(SubmissaoMonografias submissaoMonografias) {
         EntityManager em = null;
         try {
@@ -54,6 +70,12 @@ public class SubmissaoMonografiasJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param submissaoMonografias
+     * @throws NonexistentEntityException
+     * @throws Exception
+     */
     public void edit(SubmissaoMonografias submissaoMonografias) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -92,6 +114,11 @@ public class SubmissaoMonografiasJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @throws NonexistentEntityException
+     */
     public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -118,14 +145,31 @@ public class SubmissaoMonografiasJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<SubmissaoMonografias> findSubmissaoMonografiasEntities() {
         return findSubmissaoMonografiasEntities(true, -1, -1);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     public List<SubmissaoMonografias> findSubmissaoMonografiasEntities(int maxResults, int firstResult) {
         return findSubmissaoMonografiasEntities(false, maxResults, firstResult);
     }
 
+    /**
+     *
+     * @param all
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     private List<SubmissaoMonografias> findSubmissaoMonografiasEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -142,6 +186,11 @@ public class SubmissaoMonografiasJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public SubmissaoMonografias findSubmissaoMonografias(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -151,6 +200,10 @@ public class SubmissaoMonografiasJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getSubmissaoMonografiasCount() {
         EntityManager em = getEntityManager();
         try {

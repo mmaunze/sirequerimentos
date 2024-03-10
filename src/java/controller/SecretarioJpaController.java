@@ -8,18 +8,18 @@ import controller.exceptions.IllegalOrphanException;
 import controller.exceptions.NonexistentEntityException;
 import controller.exceptions.PreexistingEntityException;
 import java.io.Serializable;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import modelo.Faculdade;
-import modelo.Utilizador;
-import modelo.TratamentoPedido;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import modelo.Faculdade;
 import modelo.Secretario;
+import modelo.TratamentoPedido;
+import modelo.Utilizador;
 
 /**
  *
@@ -27,18 +27,37 @@ import modelo.Secretario;
  */
 public class SecretarioJpaController implements Serializable {
 
+
+    /**
+     *
+     */
+    private EntityManagerFactory emf = null;
+    /**
+     *
+     * @param emf
+     */
     public SecretarioJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     *
+     * @param secretario
+     * @throws IllegalOrphanException
+     * @throws PreexistingEntityException
+     * @throws Exception
+     */
     public void create(Secretario secretario) throws IllegalOrphanException, PreexistingEntityException, Exception {
         if (secretario.getTratamentoPedidoList() == null) {
-            secretario.setTratamentoPedidoList(new ArrayList<TratamentoPedido>());
+            secretario.setTratamentoPedidoList(new ArrayList<>());
         }
         List<String> illegalOrphanMessages = null;
         Utilizador utilizador1OrphanCheck = secretario.getUtilizador1();
@@ -46,7 +65,7 @@ public class SecretarioJpaController implements Serializable {
             Secretario oldSecretarioOfUtilizador1 = utilizador1OrphanCheck.getSecretario();
             if (oldSecretarioOfUtilizador1 != null) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("The Utilizador " + utilizador1OrphanCheck + " already has an item of type Secretario whose utilizador1 column cannot be null. Please make another selection for the utilizador1 field.");
             }
@@ -68,7 +87,7 @@ public class SecretarioJpaController implements Serializable {
                 utilizador1 = em.getReference(utilizador1.getClass(), utilizador1.getId());
                 secretario.setUtilizador1(utilizador1);
             }
-            List<TratamentoPedido> attachedTratamentoPedidoList = new ArrayList<TratamentoPedido>();
+            List<TratamentoPedido> attachedTratamentoPedidoList = new ArrayList<>();
             for (TratamentoPedido tratamentoPedidoListTratamentoPedidoToAttach : secretario.getTratamentoPedidoList()) {
                 tratamentoPedidoListTratamentoPedidoToAttach = em.getReference(tratamentoPedidoListTratamentoPedidoToAttach.getClass(), tratamentoPedidoListTratamentoPedidoToAttach.getId());
                 attachedTratamentoPedidoList.add(tratamentoPedidoListTratamentoPedidoToAttach);
@@ -105,6 +124,13 @@ public class SecretarioJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param secretario
+     * @throws IllegalOrphanException
+     * @throws NonexistentEntityException
+     * @throws Exception
+     */
     public void edit(Secretario secretario) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -122,7 +148,7 @@ public class SecretarioJpaController implements Serializable {
                 Secretario oldSecretarioOfUtilizador1 = utilizador1New.getSecretario();
                 if (oldSecretarioOfUtilizador1 != null) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("The Utilizador " + utilizador1New + " already has an item of type Secretario whose utilizador1 column cannot be null. Please make another selection for the utilizador1 field.");
                 }
@@ -130,7 +156,7 @@ public class SecretarioJpaController implements Serializable {
             for (TratamentoPedido tratamentoPedidoListOldTratamentoPedido : tratamentoPedidoListOld) {
                 if (!tratamentoPedidoListNew.contains(tratamentoPedidoListOldTratamentoPedido)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain TratamentoPedido " + tratamentoPedidoListOldTratamentoPedido + " since its secretario field is not nullable.");
                 }
@@ -146,7 +172,7 @@ public class SecretarioJpaController implements Serializable {
                 utilizador1New = em.getReference(utilizador1New.getClass(), utilizador1New.getId());
                 secretario.setUtilizador1(utilizador1New);
             }
-            List<TratamentoPedido> attachedTratamentoPedidoListNew = new ArrayList<TratamentoPedido>();
+            List<TratamentoPedido> attachedTratamentoPedidoListNew = new ArrayList<>();
             for (TratamentoPedido tratamentoPedidoListNewTratamentoPedidoToAttach : tratamentoPedidoListNew) {
                 tratamentoPedidoListNewTratamentoPedidoToAttach = em.getReference(tratamentoPedidoListNewTratamentoPedidoToAttach.getClass(), tratamentoPedidoListNewTratamentoPedidoToAttach.getId());
                 attachedTratamentoPedidoListNew.add(tratamentoPedidoListNewTratamentoPedidoToAttach);
@@ -198,6 +224,12 @@ public class SecretarioJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @throws IllegalOrphanException
+     * @throws NonexistentEntityException
+     */
     public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -214,7 +246,7 @@ public class SecretarioJpaController implements Serializable {
             List<TratamentoPedido> tratamentoPedidoListOrphanCheck = secretario.getTratamentoPedidoList();
             for (TratamentoPedido tratamentoPedidoListOrphanCheckTratamentoPedido : tratamentoPedidoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Secretario (" + secretario + ") cannot be destroyed since the TratamentoPedido " + tratamentoPedidoListOrphanCheckTratamentoPedido + " in its tratamentoPedidoList field has a non-nullable secretario field.");
             }
@@ -240,14 +272,31 @@ public class SecretarioJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Secretario> findSecretarioEntities() {
         return findSecretarioEntities(true, -1, -1);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     public List<Secretario> findSecretarioEntities(int maxResults, int firstResult) {
         return findSecretarioEntities(false, maxResults, firstResult);
     }
 
+    /**
+     *
+     * @param all
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     private List<Secretario> findSecretarioEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -264,6 +313,11 @@ public class SecretarioJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Secretario findSecretario(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -273,6 +327,10 @@ public class SecretarioJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getSecretarioCount() {
         EntityManager em = getEntityManager();
         try {

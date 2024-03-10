@@ -9,8 +9,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import modelo.Declaracao;
@@ -23,15 +23,31 @@ import modelo.TipoDelacarao;
  */
 public class DeclaracaoJpaController implements Serializable {
 
+
+    /**
+     *
+     */
+    private EntityManagerFactory emf = null;
+    /**
+     *
+     * @param emf
+     */
     public DeclaracaoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     *
+     * @param declaracao
+     */
     public void create(Declaracao declaracao) {
         EntityManager em = null;
         try {
@@ -64,6 +80,12 @@ public class DeclaracaoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param declaracao
+     * @throws NonexistentEntityException
+     * @throws Exception
+     */
     public void edit(Declaracao declaracao) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -116,6 +138,11 @@ public class DeclaracaoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @throws NonexistentEntityException
+     */
     public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -147,14 +174,31 @@ public class DeclaracaoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Declaracao> findDeclaracaoEntities() {
         return findDeclaracaoEntities(true, -1, -1);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     public List<Declaracao> findDeclaracaoEntities(int maxResults, int firstResult) {
         return findDeclaracaoEntities(false, maxResults, firstResult);
     }
 
+    /**
+     *
+     * @param all
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     private List<Declaracao> findDeclaracaoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -171,6 +215,11 @@ public class DeclaracaoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Declaracao findDeclaracao(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -180,6 +229,10 @@ public class DeclaracaoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getDeclaracaoCount() {
         EntityManager em = getEntityManager();
         try {

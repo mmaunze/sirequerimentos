@@ -28,39 +28,77 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "AnulacaoMatricula.findById", query = "SELECT a FROM AnulacaoMatricula a WHERE a.id = :id")})
 public class AnulacaoMatricula implements Serializable {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
     private Long id;
+
+    /**
+     *
+     */
     @JoinColumn(name = "pedido", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Pedido pedido;
 
+    /**
+     *
+     */
     public AnulacaoMatricula() {
     }
 
+    /**
+     *
+     * @param id
+     */
     public AnulacaoMatricula(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public Pedido getPedido() {
         return pedido;
     }
 
+    /**
+     *
+     * @param pedido
+     */
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -68,6 +106,11 @@ public class AnulacaoMatricula implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -81,6 +124,10 @@ public class AnulacaoMatricula implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "modelo.AnulacaoMatricula[ id=" + id + " ]";

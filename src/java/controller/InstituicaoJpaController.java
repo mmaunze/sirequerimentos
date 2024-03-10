@@ -6,16 +6,16 @@ package controller;
 
 import controller.exceptions.NonexistentEntityException;
 import java.io.Serializable;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import modelo.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import modelo.Instituicao;
+import modelo.Usuario;
 
 /**
  *
@@ -23,24 +23,40 @@ import modelo.Instituicao;
  */
 public class InstituicaoJpaController implements Serializable {
 
+
+    /**
+     *
+     */
+    private EntityManagerFactory emf = null;
+    /**
+     *
+     * @param emf
+     */
     public InstituicaoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     *
+     * @param instituicao
+     */
     public void create(Instituicao instituicao) {
         if (instituicao.getUsuarioList() == null) {
-            instituicao.setUsuarioList(new ArrayList<Usuario>());
+            instituicao.setUsuarioList(new ArrayList<>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Usuario> attachedUsuarioList = new ArrayList<Usuario>();
+            List<Usuario> attachedUsuarioList = new ArrayList<>();
             for (Usuario usuarioListUsuarioToAttach : instituicao.getUsuarioList()) {
                 usuarioListUsuarioToAttach = em.getReference(usuarioListUsuarioToAttach.getClass(), usuarioListUsuarioToAttach.getIdUsuario());
                 attachedUsuarioList.add(usuarioListUsuarioToAttach);
@@ -64,6 +80,12 @@ public class InstituicaoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param instituicao
+     * @throws NonexistentEntityException
+     * @throws Exception
+     */
     public void edit(Instituicao instituicao) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -72,7 +94,7 @@ public class InstituicaoJpaController implements Serializable {
             Instituicao persistentInstituicao = em.find(Instituicao.class, instituicao.getIdInstituicao());
             List<Usuario> usuarioListOld = persistentInstituicao.getUsuarioList();
             List<Usuario> usuarioListNew = instituicao.getUsuarioList();
-            List<Usuario> attachedUsuarioListNew = new ArrayList<Usuario>();
+            List<Usuario> attachedUsuarioListNew = new ArrayList<>();
             for (Usuario usuarioListNewUsuarioToAttach : usuarioListNew) {
                 usuarioListNewUsuarioToAttach = em.getReference(usuarioListNewUsuarioToAttach.getClass(), usuarioListNewUsuarioToAttach.getIdUsuario());
                 attachedUsuarioListNew.add(usuarioListNewUsuarioToAttach);
@@ -114,6 +136,11 @@ public class InstituicaoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @throws NonexistentEntityException
+     */
     public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -140,14 +167,31 @@ public class InstituicaoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Instituicao> findInstituicaoEntities() {
         return findInstituicaoEntities(true, -1, -1);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     public List<Instituicao> findInstituicaoEntities(int maxResults, int firstResult) {
         return findInstituicaoEntities(false, maxResults, firstResult);
     }
 
+    /**
+     *
+     * @param all
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     private List<Instituicao> findInstituicaoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -164,6 +208,11 @@ public class InstituicaoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Instituicao findInstituicao(Integer id) {
         EntityManager em = getEntityManager();
         try {
@@ -173,6 +222,10 @@ public class InstituicaoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getInstituicaoCount() {
         EntityManager em = getEntityManager();
         try {

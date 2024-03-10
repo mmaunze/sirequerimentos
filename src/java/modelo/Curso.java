@@ -40,100 +40,204 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Curso.findBySigla", query = "SELECT c FROM Curso c WHERE c.sigla = :sigla")})
 public class Curso implements Serializable {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
     private Long id;
+
+    /**
+     *
+     */
     @Basic(optional = false)
     @Column(nullable = false, length = 255)
     private String descricao;
+
+    /**
+     *
+     */
     @Basic(optional = false)
     @Column(nullable = false, length = 10)
     private String sigla;
+
+    /**
+     *
+     */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cursoDestino", fetch = FetchType.EAGER)
     private List<MudancaCurso> mudancaCursoList;
+
+    /**
+     *
+     */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cusoOrigem", fetch = FetchType.EAGER)
     private List<MudancaCurso> mudancaCursoList1;
+
+    /**
+     *
+     */
     @JoinColumn(name = "faculdade", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Faculdade faculdade;
+
+    /**
+     *
+     */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "curso", fetch = FetchType.EAGER)
     private List<Estudante> estudanteList;
 
+    /**
+     *
+     */
     public Curso() {
     }
 
+    /**
+     *
+     * @param id
+     */
     public Curso(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @param id
+     * @param descricao
+     * @param sigla
+     */
     public Curso(Long id, String descricao, String sigla) {
         this.id = id;
         this.descricao = descricao;
         this.sigla = sigla;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDescricao() {
         return descricao;
     }
 
+    /**
+     *
+     * @param descricao
+     */
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getSigla() {
         return sigla;
     }
 
+    /**
+     *
+     * @param sigla
+     */
     public void setSigla(String sigla) {
         this.sigla = sigla;
     }
 
+    /**
+     *
+     * @return
+     */
     @XmlTransient
     public List<MudancaCurso> getMudancaCursoList() {
         return mudancaCursoList;
     }
 
+    /**
+     *
+     * @param mudancaCursoList
+     */
     public void setMudancaCursoList(List<MudancaCurso> mudancaCursoList) {
         this.mudancaCursoList = mudancaCursoList;
     }
 
+    /**
+     *
+     * @return
+     */
     @XmlTransient
     public List<MudancaCurso> getMudancaCursoList1() {
         return mudancaCursoList1;
     }
 
+    /**
+     *
+     * @param mudancaCursoList1
+     */
     public void setMudancaCursoList1(List<MudancaCurso> mudancaCursoList1) {
         this.mudancaCursoList1 = mudancaCursoList1;
     }
 
+    /**
+     *
+     * @return
+     */
     public Faculdade getFaculdade() {
         return faculdade;
     }
 
+    /**
+     *
+     * @param faculdade
+     */
     public void setFaculdade(Faculdade faculdade) {
         this.faculdade = faculdade;
     }
 
+    /**
+     *
+     * @return
+     */
     @XmlTransient
     public List<Estudante> getEstudanteList() {
         return estudanteList;
     }
 
+    /**
+     *
+     * @param estudanteList
+     */
     public void setEstudanteList(List<Estudante> estudanteList) {
         this.estudanteList = estudanteList;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -141,6 +245,11 @@ public class Curso implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -154,6 +263,10 @@ public class Curso implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "modelo.Curso[ id=" + id + " ]";

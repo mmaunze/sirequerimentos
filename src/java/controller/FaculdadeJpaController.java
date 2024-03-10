@@ -7,17 +7,17 @@ package controller;
 import controller.exceptions.IllegalOrphanException;
 import controller.exceptions.NonexistentEntityException;
 import java.io.Serializable;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import modelo.Secretario;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import modelo.Curso;
 import modelo.Faculdade;
+import modelo.Secretario;
 
 /**
  *
@@ -25,33 +25,49 @@ import modelo.Faculdade;
  */
 public class FaculdadeJpaController implements Serializable {
 
+
+    /**
+     *
+     */
+    private EntityManagerFactory emf = null;
+    /**
+     *
+     * @param emf
+     */
     public FaculdadeJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     *
+     * @param faculdade
+     */
     public void create(Faculdade faculdade) {
         if (faculdade.getSecretarioList() == null) {
-            faculdade.setSecretarioList(new ArrayList<Secretario>());
+            faculdade.setSecretarioList(new ArrayList<>());
         }
         if (faculdade.getCursoList() == null) {
-            faculdade.setCursoList(new ArrayList<Curso>());
+            faculdade.setCursoList(new ArrayList<>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Secretario> attachedSecretarioList = new ArrayList<Secretario>();
+            List<Secretario> attachedSecretarioList = new ArrayList<>();
             for (Secretario secretarioListSecretarioToAttach : faculdade.getSecretarioList()) {
                 secretarioListSecretarioToAttach = em.getReference(secretarioListSecretarioToAttach.getClass(), secretarioListSecretarioToAttach.getUtilizador());
                 attachedSecretarioList.add(secretarioListSecretarioToAttach);
             }
             faculdade.setSecretarioList(attachedSecretarioList);
-            List<Curso> attachedCursoList = new ArrayList<Curso>();
+            List<Curso> attachedCursoList = new ArrayList<>();
             for (Curso cursoListCursoToAttach : faculdade.getCursoList()) {
                 cursoListCursoToAttach = em.getReference(cursoListCursoToAttach.getClass(), cursoListCursoToAttach.getId());
                 attachedCursoList.add(cursoListCursoToAttach);
@@ -84,6 +100,13 @@ public class FaculdadeJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param faculdade
+     * @throws IllegalOrphanException
+     * @throws NonexistentEntityException
+     * @throws Exception
+     */
     public void edit(Faculdade faculdade) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -98,7 +121,7 @@ public class FaculdadeJpaController implements Serializable {
             for (Secretario secretarioListOldSecretario : secretarioListOld) {
                 if (!secretarioListNew.contains(secretarioListOldSecretario)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain Secretario " + secretarioListOldSecretario + " since its faculdade field is not nullable.");
                 }
@@ -106,7 +129,7 @@ public class FaculdadeJpaController implements Serializable {
             for (Curso cursoListOldCurso : cursoListOld) {
                 if (!cursoListNew.contains(cursoListOldCurso)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain Curso " + cursoListOldCurso + " since its faculdade field is not nullable.");
                 }
@@ -114,14 +137,14 @@ public class FaculdadeJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            List<Secretario> attachedSecretarioListNew = new ArrayList<Secretario>();
+            List<Secretario> attachedSecretarioListNew = new ArrayList<>();
             for (Secretario secretarioListNewSecretarioToAttach : secretarioListNew) {
                 secretarioListNewSecretarioToAttach = em.getReference(secretarioListNewSecretarioToAttach.getClass(), secretarioListNewSecretarioToAttach.getUtilizador());
                 attachedSecretarioListNew.add(secretarioListNewSecretarioToAttach);
             }
             secretarioListNew = attachedSecretarioListNew;
             faculdade.setSecretarioList(secretarioListNew);
-            List<Curso> attachedCursoListNew = new ArrayList<Curso>();
+            List<Curso> attachedCursoListNew = new ArrayList<>();
             for (Curso cursoListNewCursoToAttach : cursoListNew) {
                 cursoListNewCursoToAttach = em.getReference(cursoListNewCursoToAttach.getClass(), cursoListNewCursoToAttach.getId());
                 attachedCursoListNew.add(cursoListNewCursoToAttach);
@@ -168,6 +191,12 @@ public class FaculdadeJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @throws IllegalOrphanException
+     * @throws NonexistentEntityException
+     */
     public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -184,14 +213,14 @@ public class FaculdadeJpaController implements Serializable {
             List<Secretario> secretarioListOrphanCheck = faculdade.getSecretarioList();
             for (Secretario secretarioListOrphanCheckSecretario : secretarioListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Faculdade (" + faculdade + ") cannot be destroyed since the Secretario " + secretarioListOrphanCheckSecretario + " in its secretarioList field has a non-nullable faculdade field.");
             }
             List<Curso> cursoListOrphanCheck = faculdade.getCursoList();
             for (Curso cursoListOrphanCheckCurso : cursoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Faculdade (" + faculdade + ") cannot be destroyed since the Curso " + cursoListOrphanCheckCurso + " in its cursoList field has a non-nullable faculdade field.");
             }
@@ -207,14 +236,31 @@ public class FaculdadeJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Faculdade> findFaculdadeEntities() {
         return findFaculdadeEntities(true, -1, -1);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     public List<Faculdade> findFaculdadeEntities(int maxResults, int firstResult) {
         return findFaculdadeEntities(false, maxResults, firstResult);
     }
 
+    /**
+     *
+     * @param all
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     private List<Faculdade> findFaculdadeEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -231,6 +277,11 @@ public class FaculdadeJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Faculdade findFaculdade(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -240,6 +291,10 @@ public class FaculdadeJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getFaculdadeCount() {
         EntityManager em = getEntityManager();
         try {

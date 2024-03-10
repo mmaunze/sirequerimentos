@@ -32,55 +32,110 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PedidosCertificados.findByTipoCertificado", query = "SELECT p FROM PedidosCertificados p WHERE p.tipoCertificado = :tipoCertificado")})
 public class PedidosCertificados implements Serializable {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
     private Long id;
+
+    /**
+     *
+     */
     @Basic(optional = false)
     @Column(name = "tipo_certificado", nullable = false, length = 100)
     private String tipoCertificado;
+
+    /**
+     *
+     */
     @JoinColumn(name = "pedido", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Pedido pedido;
 
+    /**
+     *
+     */
     public PedidosCertificados() {
     }
 
+    /**
+     *
+     * @param id
+     */
     public PedidosCertificados(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @param id
+     * @param tipoCertificado
+     */
     public PedidosCertificados(Long id, String tipoCertificado) {
         this.id = id;
         this.tipoCertificado = tipoCertificado;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getTipoCertificado() {
         return tipoCertificado;
     }
 
+    /**
+     *
+     * @param tipoCertificado
+     */
     public void setTipoCertificado(String tipoCertificado) {
         this.tipoCertificado = tipoCertificado;
     }
 
+    /**
+     *
+     * @return
+     */
     public Pedido getPedido() {
         return pedido;
     }
 
+    /**
+     *
+     * @param pedido
+     */
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -88,6 +143,11 @@ public class PedidosCertificados implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -101,6 +161,10 @@ public class PedidosCertificados implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "modelo.PedidosCertificados[ id=" + id + " ]";

@@ -16,9 +16,23 @@ import javax.servlet.http.HttpServletResponse;
 
 public class PrincipalServlet extends HttpServlet {
 
+    /**
+     *
+     */
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaSubmissaoRequereimentosPU");
+
+    /**
+     *
+     */
     EntityManager em = emf.createEntityManager();
 
+    /**
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -47,12 +61,23 @@ public class PrincipalServlet extends HttpServlet {
         }
     }
 
+    /**
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String getServletInfo() {
         return "Short description";

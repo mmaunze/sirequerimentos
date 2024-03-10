@@ -36,55 +36,110 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TipoMovimento.findByDescricao", query = "SELECT t FROM TipoMovimento t WHERE t.descricao = :descricao")})
 public class TipoMovimento implements Serializable {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
     private Long id;
+
+    /**
+     *
+     */
     @Basic(optional = false)
     @Column(nullable = false, length = 100)
     private String descricao;
+
+    /**
+     *
+     */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoMovimento", fetch = FetchType.EAGER)
     private List<Movimento> movimentoList;
 
+    /**
+     *
+     */
     public TipoMovimento() {
     }
 
+    /**
+     *
+     * @param id
+     */
     public TipoMovimento(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @param id
+     * @param descricao
+     */
     public TipoMovimento(Long id, String descricao) {
         this.id = id;
         this.descricao = descricao;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDescricao() {
         return descricao;
     }
 
+    /**
+     *
+     * @param descricao
+     */
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 
+    /**
+     *
+     * @return
+     */
     @XmlTransient
     public List<Movimento> getMovimentoList() {
         return movimentoList;
     }
 
+    /**
+     *
+     * @param movimentoList
+     */
     public void setMovimentoList(List<Movimento> movimentoList) {
         this.movimentoList = movimentoList;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -92,6 +147,11 @@ public class TipoMovimento implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -105,6 +165,10 @@ public class TipoMovimento implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "modelo.TipoMovimento[ id=" + id + " ]";

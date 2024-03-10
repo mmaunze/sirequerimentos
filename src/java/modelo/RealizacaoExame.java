@@ -36,68 +36,136 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "RealizacaoExame.findByDataExame", query = "SELECT r FROM RealizacaoExame r WHERE r.dataExame = :dataExame")})
 public class RealizacaoExame implements Serializable {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
     private Long id;
+
+    /**
+     *
+     */
     @Basic(optional = false)
     @Column(name = "tipo_exame", nullable = false, length = 100)
     private String tipoExame;
+
+    /**
+     *
+     */
     @Basic(optional = false)
     @Column(name = "data_exame", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date dataExame;
+
+    /**
+     *
+     */
     @JoinColumn(name = "pedido", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Pedido pedido;
 
+    /**
+     *
+     */
     public RealizacaoExame() {
     }
 
+    /**
+     *
+     * @param id
+     */
     public RealizacaoExame(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @param id
+     * @param tipoExame
+     * @param dataExame
+     */
     public RealizacaoExame(Long id, String tipoExame, Date dataExame) {
         this.id = id;
         this.tipoExame = tipoExame;
         this.dataExame = dataExame;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getTipoExame() {
         return tipoExame;
     }
 
+    /**
+     *
+     * @param tipoExame
+     */
     public void setTipoExame(String tipoExame) {
         this.tipoExame = tipoExame;
     }
 
+    /**
+     *
+     * @return
+     */
     public Date getDataExame() {
         return dataExame;
     }
 
+    /**
+     *
+     * @param dataExame
+     */
     public void setDataExame(Date dataExame) {
         this.dataExame = dataExame;
     }
 
+    /**
+     *
+     * @return
+     */
     public Pedido getPedido() {
         return pedido;
     }
 
+    /**
+     *
+     * @param pedido
+     */
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -105,6 +173,11 @@ public class RealizacaoExame implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -118,6 +191,10 @@ public class RealizacaoExame implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "modelo.RealizacaoExame[ id=" + id + " ]";

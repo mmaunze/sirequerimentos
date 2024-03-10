@@ -36,55 +36,110 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TipoPedido.findByDescricao", query = "SELECT t FROM TipoPedido t WHERE t.descricao = :descricao")})
 public class TipoPedido implements Serializable {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
     private Long id;
+
+    /**
+     *
+     */
     @Basic(optional = false)
     @Column(nullable = false, length = 100)
     private String descricao;
+
+    /**
+     *
+     */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoPedido", fetch = FetchType.EAGER)
     private List<Pedido> pedidoList;
 
+    /**
+     *
+     */
     public TipoPedido() {
     }
 
+    /**
+     *
+     * @param id
+     */
     public TipoPedido(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @param id
+     * @param descricao
+     */
     public TipoPedido(Long id, String descricao) {
         this.id = id;
         this.descricao = descricao;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDescricao() {
         return descricao;
     }
 
+    /**
+     *
+     * @param descricao
+     */
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 
+    /**
+     *
+     * @return
+     */
     @XmlTransient
     public List<Pedido> getPedidoList() {
         return pedidoList;
     }
 
+    /**
+     *
+     * @param pedidoList
+     */
     public void setPedidoList(List<Pedido> pedidoList) {
         this.pedidoList = pedidoList;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -92,6 +147,11 @@ public class TipoPedido implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -105,6 +165,10 @@ public class TipoPedido implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "modelo.TipoPedido[ id=" + id + " ]";

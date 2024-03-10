@@ -7,16 +7,16 @@ package controller;
 import controller.exceptions.IllegalOrphanException;
 import controller.exceptions.NonexistentEntityException;
 import java.io.Serializable;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import modelo.Utilizador;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import modelo.Departamento;
+import modelo.Utilizador;
 
 /**
  *
@@ -24,24 +24,40 @@ import modelo.Departamento;
  */
 public class DepartamentoJpaController implements Serializable {
 
+
+    /**
+     *
+     */
+    private EntityManagerFactory emf = null;
+    /**
+     *
+     * @param emf
+     */
     public DepartamentoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     *
+     * @param departamento
+     */
     public void create(Departamento departamento) {
         if (departamento.getUtilizadorList() == null) {
-            departamento.setUtilizadorList(new ArrayList<Utilizador>());
+            departamento.setUtilizadorList(new ArrayList<>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Utilizador> attachedUtilizadorList = new ArrayList<Utilizador>();
+            List<Utilizador> attachedUtilizadorList = new ArrayList<>();
             for (Utilizador utilizadorListUtilizadorToAttach : departamento.getUtilizadorList()) {
                 utilizadorListUtilizadorToAttach = em.getReference(utilizadorListUtilizadorToAttach.getClass(), utilizadorListUtilizadorToAttach.getId());
                 attachedUtilizadorList.add(utilizadorListUtilizadorToAttach);
@@ -65,6 +81,13 @@ public class DepartamentoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param departamento
+     * @throws IllegalOrphanException
+     * @throws NonexistentEntityException
+     * @throws Exception
+     */
     public void edit(Departamento departamento) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -77,7 +100,7 @@ public class DepartamentoJpaController implements Serializable {
             for (Utilizador utilizadorListOldUtilizador : utilizadorListOld) {
                 if (!utilizadorListNew.contains(utilizadorListOldUtilizador)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain Utilizador " + utilizadorListOldUtilizador + " since its departamento field is not nullable.");
                 }
@@ -85,7 +108,7 @@ public class DepartamentoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            List<Utilizador> attachedUtilizadorListNew = new ArrayList<Utilizador>();
+            List<Utilizador> attachedUtilizadorListNew = new ArrayList<>();
             for (Utilizador utilizadorListNewUtilizadorToAttach : utilizadorListNew) {
                 utilizadorListNewUtilizadorToAttach = em.getReference(utilizadorListNewUtilizadorToAttach.getClass(), utilizadorListNewUtilizadorToAttach.getId());
                 attachedUtilizadorListNew.add(utilizadorListNewUtilizadorToAttach);
@@ -121,6 +144,12 @@ public class DepartamentoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @throws IllegalOrphanException
+     * @throws NonexistentEntityException
+     */
     public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -137,7 +166,7 @@ public class DepartamentoJpaController implements Serializable {
             List<Utilizador> utilizadorListOrphanCheck = departamento.getUtilizadorList();
             for (Utilizador utilizadorListOrphanCheckUtilizador : utilizadorListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Departamento (" + departamento + ") cannot be destroyed since the Utilizador " + utilizadorListOrphanCheckUtilizador + " in its utilizadorList field has a non-nullable departamento field.");
             }
@@ -153,14 +182,31 @@ public class DepartamentoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Departamento> findDepartamentoEntities() {
         return findDepartamentoEntities(true, -1, -1);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     public List<Departamento> findDepartamentoEntities(int maxResults, int firstResult) {
         return findDepartamentoEntities(false, maxResults, firstResult);
     }
 
+    /**
+     *
+     * @param all
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     private List<Departamento> findDepartamentoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -177,6 +223,11 @@ public class DepartamentoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Departamento findDepartamento(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -186,6 +237,10 @@ public class DepartamentoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getDepartamentoCount() {
         EntityManager em = getEntityManager();
         try {

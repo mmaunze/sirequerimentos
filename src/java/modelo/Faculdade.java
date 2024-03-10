@@ -38,78 +38,158 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Faculdade.findBySigla", query = "SELECT f FROM Faculdade f WHERE f.sigla = :sigla")})
 public class Faculdade implements Serializable {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
     private Long id;
+
+    /**
+     *
+     */
     @Basic(optional = false)
     @Column(nullable = false, length = 255)
     private String descricao;
+
+    /**
+     *
+     */
     @Basic(optional = false)
     @Column(nullable = false, length = 10)
     private String sigla;
+
+    /**
+     *
+     */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "faculdade", fetch = FetchType.EAGER)
     private List<Secretario> secretarioList;
+
+    /**
+     *
+     */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "faculdade", fetch = FetchType.EAGER)
     private List<Curso> cursoList;
 
+    /**
+     *
+     */
     public Faculdade() {
     }
 
+    /**
+     *
+     * @param id
+     */
     public Faculdade(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @param id
+     * @param descricao
+     * @param sigla
+     */
     public Faculdade(Long id, String descricao, String sigla) {
         this.id = id;
         this.descricao = descricao;
         this.sigla = sigla;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDescricao() {
         return descricao;
     }
 
+    /**
+     *
+     * @param descricao
+     */
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getSigla() {
         return sigla;
     }
 
+    /**
+     *
+     * @param sigla
+     */
     public void setSigla(String sigla) {
         this.sigla = sigla;
     }
 
+    /**
+     *
+     * @return
+     */
     @XmlTransient
     public List<Secretario> getSecretarioList() {
         return secretarioList;
     }
 
+    /**
+     *
+     * @param secretarioList
+     */
     public void setSecretarioList(List<Secretario> secretarioList) {
         this.secretarioList = secretarioList;
     }
 
+    /**
+     *
+     * @return
+     */
     @XmlTransient
     public List<Curso> getCursoList() {
         return cursoList;
     }
 
+    /**
+     *
+     * @param cursoList
+     */
     public void setCursoList(List<Curso> cursoList) {
         this.cursoList = cursoList;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -117,6 +197,11 @@ public class Faculdade implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -130,6 +215,10 @@ public class Faculdade implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "modelo.Faculdade[ id=" + id + " ]";

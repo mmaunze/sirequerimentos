@@ -36,49 +36,99 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TipoUtilizador.findByDescricao", query = "SELECT t FROM TipoUtilizador t WHERE t.descricao = :descricao")})
 public class TipoUtilizador implements Serializable {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
     private Long id;
+
+    /**
+     *
+     */
     @Column(length = 100)
     private String descricao;
+
+    /**
+     *
+     */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoUtilizador", fetch = FetchType.EAGER)
     private List<Utilizador> utilizadorList;
 
+    /**
+     *
+     */
     public TipoUtilizador() {
     }
 
+    /**
+     *
+     * @param id
+     */
     public TipoUtilizador(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDescricao() {
         return descricao;
     }
 
+    /**
+     *
+     * @param descricao
+     */
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 
+    /**
+     *
+     * @return
+     */
     @XmlTransient
     public List<Utilizador> getUtilizadorList() {
         return utilizadorList;
     }
 
+    /**
+     *
+     * @param utilizadorList
+     */
     public void setUtilizadorList(List<Utilizador> utilizadorList) {
         this.utilizadorList = utilizadorList;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -86,6 +136,11 @@ public class TipoUtilizador implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -99,6 +154,10 @@ public class TipoUtilizador implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "modelo.TipoUtilizador[ id=" + id + " ]";

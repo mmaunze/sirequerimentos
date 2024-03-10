@@ -33,56 +33,111 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SituacaoDivida.findByValorDivida", query = "SELECT s FROM SituacaoDivida s WHERE s.valorDivida = :valorDivida")})
 public class SituacaoDivida implements Serializable {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
     private Long id;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+
+    /**
+     *
+     */
     @Basic(optional = false)
     @Column(name = "valor_divida", nullable = false, precision = 10, scale = 2)
     private BigDecimal valorDivida;
+
+    /**
+     *
+     */
     @JoinColumn(name = "pedido", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Pedido pedido;
 
+    /**
+     *
+     */
     public SituacaoDivida() {
     }
 
+    /**
+     *
+     * @param id
+     */
     public SituacaoDivida(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @param id
+     * @param valorDivida
+     */
     public SituacaoDivida(Long id, BigDecimal valorDivida) {
         this.id = id;
         this.valorDivida = valorDivida;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public BigDecimal getValorDivida() {
         return valorDivida;
     }
 
+    /**
+     *
+     * @param valorDivida
+     */
     public void setValorDivida(BigDecimal valorDivida) {
         this.valorDivida = valorDivida;
     }
 
+    /**
+     *
+     * @return
+     */
     public Pedido getPedido() {
         return pedido;
     }
 
+    /**
+     *
+     * @param pedido
+     */
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -90,6 +145,11 @@ public class SituacaoDivida implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -103,6 +163,10 @@ public class SituacaoDivida implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "modelo.SituacaoDivida[ id=" + id + " ]";

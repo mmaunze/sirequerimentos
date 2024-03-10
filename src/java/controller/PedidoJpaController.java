@@ -7,31 +7,31 @@ package controller;
 import controller.exceptions.IllegalOrphanException;
 import controller.exceptions.NonexistentEntityException;
 import java.io.Serializable;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import modelo.Estado;
-import modelo.TipoPedido;
-import modelo.Utilizador;
-import modelo.Pedido;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import modelo.RealizacaoExame;
-import modelo.MudancaCurso;
-import modelo.SituacaoDivida;
-import modelo.TratamentoPedido;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import modelo.Declaracao;
+import modelo.Equivalencia;
+import modelo.Estado;
 import modelo.MatriculaForaEpoca;
 import modelo.Movimento;
+import modelo.MudancaCurso;
+import modelo.Pedido;
 import modelo.PedidosCertificados;
-import modelo.TransferenciaCrs;
+import modelo.RealizacaoExame;
 import modelo.ReintegracaoAcademica;
-import modelo.Equivalencia;
-import modelo.SubmissaoRelatorioEstagio;
+import modelo.SituacaoDivida;
 import modelo.SubmissaoMonografias;
-import modelo.Declaracao;
+import modelo.SubmissaoRelatorioEstagio;
+import modelo.TipoPedido;
+import modelo.TransferenciaCrs;
+import modelo.TratamentoPedido;
+import modelo.Utilizador;
 
 /**
  *
@@ -39,78 +39,94 @@ import modelo.Declaracao;
  */
 public class PedidoJpaController implements Serializable {
 
+
+    /**
+     *
+     */
+    private EntityManagerFactory emf = null;
+    /**
+     *
+     * @param emf
+     */
     public PedidoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     *
+     * @param pedido
+     */
     public void create(Pedido pedido) {
         if (pedido.getPedidoList() == null) {
-            pedido.setPedidoList(new ArrayList<Pedido>());
+            pedido.setPedidoList(new ArrayList<>());
         }
         if (pedido.getPedidoList1() == null) {
-            pedido.setPedidoList1(new ArrayList<Pedido>());
+            pedido.setPedidoList1(new ArrayList<>());
         }
         if (pedido.getPedidoList2() == null) {
-            pedido.setPedidoList2(new ArrayList<Pedido>());
+            pedido.setPedidoList2(new ArrayList<>());
         }
         if (pedido.getPedidoList3() == null) {
-            pedido.setPedidoList3(new ArrayList<Pedido>());
+            pedido.setPedidoList3(new ArrayList<>());
         }
         if (pedido.getPedidoList4() == null) {
-            pedido.setPedidoList4(new ArrayList<Pedido>());
+            pedido.setPedidoList4(new ArrayList<>());
         }
         if (pedido.getPedidoList5() == null) {
-            pedido.setPedidoList5(new ArrayList<Pedido>());
+            pedido.setPedidoList5(new ArrayList<>());
         }
         if (pedido.getPedidoList6() == null) {
-            pedido.setPedidoList6(new ArrayList<Pedido>());
+            pedido.setPedidoList6(new ArrayList<>());
         }
         if (pedido.getPedidoList7() == null) {
-            pedido.setPedidoList7(new ArrayList<Pedido>());
+            pedido.setPedidoList7(new ArrayList<>());
         }
         if (pedido.getRealizacaoExameList() == null) {
-            pedido.setRealizacaoExameList(new ArrayList<RealizacaoExame>());
+            pedido.setRealizacaoExameList(new ArrayList<>());
         }
         if (pedido.getMudancaCursoList() == null) {
-            pedido.setMudancaCursoList(new ArrayList<MudancaCurso>());
+            pedido.setMudancaCursoList(new ArrayList<>());
         }
         if (pedido.getSituacaoDividaList() == null) {
-            pedido.setSituacaoDividaList(new ArrayList<SituacaoDivida>());
+            pedido.setSituacaoDividaList(new ArrayList<>());
         }
         if (pedido.getTratamentoPedidoList() == null) {
-            pedido.setTratamentoPedidoList(new ArrayList<TratamentoPedido>());
+            pedido.setTratamentoPedidoList(new ArrayList<>());
         }
         if (pedido.getMatriculaForaEpocaList() == null) {
-            pedido.setMatriculaForaEpocaList(new ArrayList<MatriculaForaEpoca>());
+            pedido.setMatriculaForaEpocaList(new ArrayList<>());
         }
         if (pedido.getMovimentoList() == null) {
-            pedido.setMovimentoList(new ArrayList<Movimento>());
+            pedido.setMovimentoList(new ArrayList<>());
         }
         if (pedido.getPedidosCertificadosList() == null) {
-            pedido.setPedidosCertificadosList(new ArrayList<PedidosCertificados>());
+            pedido.setPedidosCertificadosList(new ArrayList<>());
         }
         if (pedido.getTransferenciaCrsList() == null) {
-            pedido.setTransferenciaCrsList(new ArrayList<TransferenciaCrs>());
+            pedido.setTransferenciaCrsList(new ArrayList<>());
         }
         if (pedido.getReintegracaoAcademicaList() == null) {
-            pedido.setReintegracaoAcademicaList(new ArrayList<ReintegracaoAcademica>());
+            pedido.setReintegracaoAcademicaList(new ArrayList<>());
         }
         if (pedido.getEquivalenciaList() == null) {
-            pedido.setEquivalenciaList(new ArrayList<Equivalencia>());
+            pedido.setEquivalenciaList(new ArrayList<>());
         }
         if (pedido.getSubmissaoRelatorioEstagioList() == null) {
-            pedido.setSubmissaoRelatorioEstagioList(new ArrayList<SubmissaoRelatorioEstagio>());
+            pedido.setSubmissaoRelatorioEstagioList(new ArrayList<>());
         }
         if (pedido.getSubmissaoMonografiasList() == null) {
-            pedido.setSubmissaoMonografiasList(new ArrayList<SubmissaoMonografias>());
+            pedido.setSubmissaoMonografiasList(new ArrayList<>());
         }
         if (pedido.getDeclaracaoList() == null) {
-            pedido.setDeclaracaoList(new ArrayList<Declaracao>());
+            pedido.setDeclaracaoList(new ArrayList<>());
         }
         EntityManager em = null;
         try {
@@ -131,127 +147,127 @@ public class PedidoJpaController implements Serializable {
                 utilizador = em.getReference(utilizador.getClass(), utilizador.getId());
                 pedido.setUtilizador(utilizador);
             }
-            List<Pedido> attachedPedidoList = new ArrayList<Pedido>();
+            List<Pedido> attachedPedidoList = new ArrayList<>();
             for (Pedido pedidoListPedidoToAttach : pedido.getPedidoList()) {
                 pedidoListPedidoToAttach = em.getReference(pedidoListPedidoToAttach.getClass(), pedidoListPedidoToAttach.getId());
                 attachedPedidoList.add(pedidoListPedidoToAttach);
             }
             pedido.setPedidoList(attachedPedidoList);
-            List<Pedido> attachedPedidoList1 = new ArrayList<Pedido>();
+            List<Pedido> attachedPedidoList1 = new ArrayList<>();
             for (Pedido pedidoList1PedidoToAttach : pedido.getPedidoList1()) {
                 pedidoList1PedidoToAttach = em.getReference(pedidoList1PedidoToAttach.getClass(), pedidoList1PedidoToAttach.getId());
                 attachedPedidoList1.add(pedidoList1PedidoToAttach);
             }
             pedido.setPedidoList1(attachedPedidoList1);
-            List<Pedido> attachedPedidoList2 = new ArrayList<Pedido>();
+            List<Pedido> attachedPedidoList2 = new ArrayList<>();
             for (Pedido pedidoList2PedidoToAttach : pedido.getPedidoList2()) {
                 pedidoList2PedidoToAttach = em.getReference(pedidoList2PedidoToAttach.getClass(), pedidoList2PedidoToAttach.getId());
                 attachedPedidoList2.add(pedidoList2PedidoToAttach);
             }
             pedido.setPedidoList2(attachedPedidoList2);
-            List<Pedido> attachedPedidoList3 = new ArrayList<Pedido>();
+            List<Pedido> attachedPedidoList3 = new ArrayList<>();
             for (Pedido pedidoList3PedidoToAttach : pedido.getPedidoList3()) {
                 pedidoList3PedidoToAttach = em.getReference(pedidoList3PedidoToAttach.getClass(), pedidoList3PedidoToAttach.getId());
                 attachedPedidoList3.add(pedidoList3PedidoToAttach);
             }
             pedido.setPedidoList3(attachedPedidoList3);
-            List<Pedido> attachedPedidoList4 = new ArrayList<Pedido>();
+            List<Pedido> attachedPedidoList4 = new ArrayList<>();
             for (Pedido pedidoList4PedidoToAttach : pedido.getPedidoList4()) {
                 pedidoList4PedidoToAttach = em.getReference(pedidoList4PedidoToAttach.getClass(), pedidoList4PedidoToAttach.getId());
                 attachedPedidoList4.add(pedidoList4PedidoToAttach);
             }
             pedido.setPedidoList4(attachedPedidoList4);
-            List<Pedido> attachedPedidoList5 = new ArrayList<Pedido>();
+            List<Pedido> attachedPedidoList5 = new ArrayList<>();
             for (Pedido pedidoList5PedidoToAttach : pedido.getPedidoList5()) {
                 pedidoList5PedidoToAttach = em.getReference(pedidoList5PedidoToAttach.getClass(), pedidoList5PedidoToAttach.getId());
                 attachedPedidoList5.add(pedidoList5PedidoToAttach);
             }
             pedido.setPedidoList5(attachedPedidoList5);
-            List<Pedido> attachedPedidoList6 = new ArrayList<Pedido>();
+            List<Pedido> attachedPedidoList6 = new ArrayList<>();
             for (Pedido pedidoList6PedidoToAttach : pedido.getPedidoList6()) {
                 pedidoList6PedidoToAttach = em.getReference(pedidoList6PedidoToAttach.getClass(), pedidoList6PedidoToAttach.getId());
                 attachedPedidoList6.add(pedidoList6PedidoToAttach);
             }
             pedido.setPedidoList6(attachedPedidoList6);
-            List<Pedido> attachedPedidoList7 = new ArrayList<Pedido>();
+            List<Pedido> attachedPedidoList7 = new ArrayList<>();
             for (Pedido pedidoList7PedidoToAttach : pedido.getPedidoList7()) {
                 pedidoList7PedidoToAttach = em.getReference(pedidoList7PedidoToAttach.getClass(), pedidoList7PedidoToAttach.getId());
                 attachedPedidoList7.add(pedidoList7PedidoToAttach);
             }
             pedido.setPedidoList7(attachedPedidoList7);
-            List<RealizacaoExame> attachedRealizacaoExameList = new ArrayList<RealizacaoExame>();
+            List<RealizacaoExame> attachedRealizacaoExameList = new ArrayList<>();
             for (RealizacaoExame realizacaoExameListRealizacaoExameToAttach : pedido.getRealizacaoExameList()) {
                 realizacaoExameListRealizacaoExameToAttach = em.getReference(realizacaoExameListRealizacaoExameToAttach.getClass(), realizacaoExameListRealizacaoExameToAttach.getId());
                 attachedRealizacaoExameList.add(realizacaoExameListRealizacaoExameToAttach);
             }
             pedido.setRealizacaoExameList(attachedRealizacaoExameList);
-            List<MudancaCurso> attachedMudancaCursoList = new ArrayList<MudancaCurso>();
+            List<MudancaCurso> attachedMudancaCursoList = new ArrayList<>();
             for (MudancaCurso mudancaCursoListMudancaCursoToAttach : pedido.getMudancaCursoList()) {
                 mudancaCursoListMudancaCursoToAttach = em.getReference(mudancaCursoListMudancaCursoToAttach.getClass(), mudancaCursoListMudancaCursoToAttach.getId());
                 attachedMudancaCursoList.add(mudancaCursoListMudancaCursoToAttach);
             }
             pedido.setMudancaCursoList(attachedMudancaCursoList);
-            List<SituacaoDivida> attachedSituacaoDividaList = new ArrayList<SituacaoDivida>();
+            List<SituacaoDivida> attachedSituacaoDividaList = new ArrayList<>();
             for (SituacaoDivida situacaoDividaListSituacaoDividaToAttach : pedido.getSituacaoDividaList()) {
                 situacaoDividaListSituacaoDividaToAttach = em.getReference(situacaoDividaListSituacaoDividaToAttach.getClass(), situacaoDividaListSituacaoDividaToAttach.getId());
                 attachedSituacaoDividaList.add(situacaoDividaListSituacaoDividaToAttach);
             }
             pedido.setSituacaoDividaList(attachedSituacaoDividaList);
-            List<TratamentoPedido> attachedTratamentoPedidoList = new ArrayList<TratamentoPedido>();
+            List<TratamentoPedido> attachedTratamentoPedidoList = new ArrayList<>();
             for (TratamentoPedido tratamentoPedidoListTratamentoPedidoToAttach : pedido.getTratamentoPedidoList()) {
                 tratamentoPedidoListTratamentoPedidoToAttach = em.getReference(tratamentoPedidoListTratamentoPedidoToAttach.getClass(), tratamentoPedidoListTratamentoPedidoToAttach.getId());
                 attachedTratamentoPedidoList.add(tratamentoPedidoListTratamentoPedidoToAttach);
             }
             pedido.setTratamentoPedidoList(attachedTratamentoPedidoList);
-            List<MatriculaForaEpoca> attachedMatriculaForaEpocaList = new ArrayList<MatriculaForaEpoca>();
+            List<MatriculaForaEpoca> attachedMatriculaForaEpocaList = new ArrayList<>();
             for (MatriculaForaEpoca matriculaForaEpocaListMatriculaForaEpocaToAttach : pedido.getMatriculaForaEpocaList()) {
                 matriculaForaEpocaListMatriculaForaEpocaToAttach = em.getReference(matriculaForaEpocaListMatriculaForaEpocaToAttach.getClass(), matriculaForaEpocaListMatriculaForaEpocaToAttach.getId());
                 attachedMatriculaForaEpocaList.add(matriculaForaEpocaListMatriculaForaEpocaToAttach);
             }
             pedido.setMatriculaForaEpocaList(attachedMatriculaForaEpocaList);
-            List<Movimento> attachedMovimentoList = new ArrayList<Movimento>();
+            List<Movimento> attachedMovimentoList = new ArrayList<>();
             for (Movimento movimentoListMovimentoToAttach : pedido.getMovimentoList()) {
                 movimentoListMovimentoToAttach = em.getReference(movimentoListMovimentoToAttach.getClass(), movimentoListMovimentoToAttach.getId());
                 attachedMovimentoList.add(movimentoListMovimentoToAttach);
             }
             pedido.setMovimentoList(attachedMovimentoList);
-            List<PedidosCertificados> attachedPedidosCertificadosList = new ArrayList<PedidosCertificados>();
+            List<PedidosCertificados> attachedPedidosCertificadosList = new ArrayList<>();
             for (PedidosCertificados pedidosCertificadosListPedidosCertificadosToAttach : pedido.getPedidosCertificadosList()) {
                 pedidosCertificadosListPedidosCertificadosToAttach = em.getReference(pedidosCertificadosListPedidosCertificadosToAttach.getClass(), pedidosCertificadosListPedidosCertificadosToAttach.getId());
                 attachedPedidosCertificadosList.add(pedidosCertificadosListPedidosCertificadosToAttach);
             }
             pedido.setPedidosCertificadosList(attachedPedidosCertificadosList);
-            List<TransferenciaCrs> attachedTransferenciaCrsList = new ArrayList<TransferenciaCrs>();
+            List<TransferenciaCrs> attachedTransferenciaCrsList = new ArrayList<>();
             for (TransferenciaCrs transferenciaCrsListTransferenciaCrsToAttach : pedido.getTransferenciaCrsList()) {
                 transferenciaCrsListTransferenciaCrsToAttach = em.getReference(transferenciaCrsListTransferenciaCrsToAttach.getClass(), transferenciaCrsListTransferenciaCrsToAttach.getId());
                 attachedTransferenciaCrsList.add(transferenciaCrsListTransferenciaCrsToAttach);
             }
             pedido.setTransferenciaCrsList(attachedTransferenciaCrsList);
-            List<ReintegracaoAcademica> attachedReintegracaoAcademicaList = new ArrayList<ReintegracaoAcademica>();
+            List<ReintegracaoAcademica> attachedReintegracaoAcademicaList = new ArrayList<>();
             for (ReintegracaoAcademica reintegracaoAcademicaListReintegracaoAcademicaToAttach : pedido.getReintegracaoAcademicaList()) {
                 reintegracaoAcademicaListReintegracaoAcademicaToAttach = em.getReference(reintegracaoAcademicaListReintegracaoAcademicaToAttach.getClass(), reintegracaoAcademicaListReintegracaoAcademicaToAttach.getId());
                 attachedReintegracaoAcademicaList.add(reintegracaoAcademicaListReintegracaoAcademicaToAttach);
             }
             pedido.setReintegracaoAcademicaList(attachedReintegracaoAcademicaList);
-            List<Equivalencia> attachedEquivalenciaList = new ArrayList<Equivalencia>();
+            List<Equivalencia> attachedEquivalenciaList = new ArrayList<>();
             for (Equivalencia equivalenciaListEquivalenciaToAttach : pedido.getEquivalenciaList()) {
                 equivalenciaListEquivalenciaToAttach = em.getReference(equivalenciaListEquivalenciaToAttach.getClass(), equivalenciaListEquivalenciaToAttach.getId());
                 attachedEquivalenciaList.add(equivalenciaListEquivalenciaToAttach);
             }
             pedido.setEquivalenciaList(attachedEquivalenciaList);
-            List<SubmissaoRelatorioEstagio> attachedSubmissaoRelatorioEstagioList = new ArrayList<SubmissaoRelatorioEstagio>();
+            List<SubmissaoRelatorioEstagio> attachedSubmissaoRelatorioEstagioList = new ArrayList<>();
             for (SubmissaoRelatorioEstagio submissaoRelatorioEstagioListSubmissaoRelatorioEstagioToAttach : pedido.getSubmissaoRelatorioEstagioList()) {
                 submissaoRelatorioEstagioListSubmissaoRelatorioEstagioToAttach = em.getReference(submissaoRelatorioEstagioListSubmissaoRelatorioEstagioToAttach.getClass(), submissaoRelatorioEstagioListSubmissaoRelatorioEstagioToAttach.getId());
                 attachedSubmissaoRelatorioEstagioList.add(submissaoRelatorioEstagioListSubmissaoRelatorioEstagioToAttach);
             }
             pedido.setSubmissaoRelatorioEstagioList(attachedSubmissaoRelatorioEstagioList);
-            List<SubmissaoMonografias> attachedSubmissaoMonografiasList = new ArrayList<SubmissaoMonografias>();
+            List<SubmissaoMonografias> attachedSubmissaoMonografiasList = new ArrayList<>();
             for (SubmissaoMonografias submissaoMonografiasListSubmissaoMonografiasToAttach : pedido.getSubmissaoMonografiasList()) {
                 submissaoMonografiasListSubmissaoMonografiasToAttach = em.getReference(submissaoMonografiasListSubmissaoMonografiasToAttach.getClass(), submissaoMonografiasListSubmissaoMonografiasToAttach.getId());
                 attachedSubmissaoMonografiasList.add(submissaoMonografiasListSubmissaoMonografiasToAttach);
             }
             pedido.setSubmissaoMonografiasList(attachedSubmissaoMonografiasList);
-            List<Declaracao> attachedDeclaracaoList = new ArrayList<Declaracao>();
+            List<Declaracao> attachedDeclaracaoList = new ArrayList<>();
             for (Declaracao declaracaoListDeclaracaoToAttach : pedido.getDeclaracaoList()) {
                 declaracaoListDeclaracaoToAttach = em.getReference(declaracaoListDeclaracaoToAttach.getClass(), declaracaoListDeclaracaoToAttach.getId());
                 attachedDeclaracaoList.add(declaracaoListDeclaracaoToAttach);
@@ -427,6 +443,13 @@ public class PedidoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param pedido
+     * @throws IllegalOrphanException
+     * @throws NonexistentEntityException
+     * @throws Exception
+     */
     public void edit(Pedido pedido) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -485,7 +508,7 @@ public class PedidoJpaController implements Serializable {
             for (RealizacaoExame realizacaoExameListOldRealizacaoExame : realizacaoExameListOld) {
                 if (!realizacaoExameListNew.contains(realizacaoExameListOldRealizacaoExame)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain RealizacaoExame " + realizacaoExameListOldRealizacaoExame + " since its pedido field is not nullable.");
                 }
@@ -493,7 +516,7 @@ public class PedidoJpaController implements Serializable {
             for (MudancaCurso mudancaCursoListOldMudancaCurso : mudancaCursoListOld) {
                 if (!mudancaCursoListNew.contains(mudancaCursoListOldMudancaCurso)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain MudancaCurso " + mudancaCursoListOldMudancaCurso + " since its pedido field is not nullable.");
                 }
@@ -501,7 +524,7 @@ public class PedidoJpaController implements Serializable {
             for (SituacaoDivida situacaoDividaListOldSituacaoDivida : situacaoDividaListOld) {
                 if (!situacaoDividaListNew.contains(situacaoDividaListOldSituacaoDivida)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain SituacaoDivida " + situacaoDividaListOldSituacaoDivida + " since its pedido field is not nullable.");
                 }
@@ -509,7 +532,7 @@ public class PedidoJpaController implements Serializable {
             for (TratamentoPedido tratamentoPedidoListOldTratamentoPedido : tratamentoPedidoListOld) {
                 if (!tratamentoPedidoListNew.contains(tratamentoPedidoListOldTratamentoPedido)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain TratamentoPedido " + tratamentoPedidoListOldTratamentoPedido + " since its pedido field is not nullable.");
                 }
@@ -517,7 +540,7 @@ public class PedidoJpaController implements Serializable {
             for (MatriculaForaEpoca matriculaForaEpocaListOldMatriculaForaEpoca : matriculaForaEpocaListOld) {
                 if (!matriculaForaEpocaListNew.contains(matriculaForaEpocaListOldMatriculaForaEpoca)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain MatriculaForaEpoca " + matriculaForaEpocaListOldMatriculaForaEpoca + " since its pedido field is not nullable.");
                 }
@@ -525,7 +548,7 @@ public class PedidoJpaController implements Serializable {
             for (Movimento movimentoListOldMovimento : movimentoListOld) {
                 if (!movimentoListNew.contains(movimentoListOldMovimento)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain Movimento " + movimentoListOldMovimento + " since its pedido field is not nullable.");
                 }
@@ -533,7 +556,7 @@ public class PedidoJpaController implements Serializable {
             for (PedidosCertificados pedidosCertificadosListOldPedidosCertificados : pedidosCertificadosListOld) {
                 if (!pedidosCertificadosListNew.contains(pedidosCertificadosListOldPedidosCertificados)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain PedidosCertificados " + pedidosCertificadosListOldPedidosCertificados + " since its pedido field is not nullable.");
                 }
@@ -541,7 +564,7 @@ public class PedidoJpaController implements Serializable {
             for (TransferenciaCrs transferenciaCrsListOldTransferenciaCrs : transferenciaCrsListOld) {
                 if (!transferenciaCrsListNew.contains(transferenciaCrsListOldTransferenciaCrs)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain TransferenciaCrs " + transferenciaCrsListOldTransferenciaCrs + " since its pedido field is not nullable.");
                 }
@@ -549,7 +572,7 @@ public class PedidoJpaController implements Serializable {
             for (ReintegracaoAcademica reintegracaoAcademicaListOldReintegracaoAcademica : reintegracaoAcademicaListOld) {
                 if (!reintegracaoAcademicaListNew.contains(reintegracaoAcademicaListOldReintegracaoAcademica)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain ReintegracaoAcademica " + reintegracaoAcademicaListOldReintegracaoAcademica + " since its pedido field is not nullable.");
                 }
@@ -557,7 +580,7 @@ public class PedidoJpaController implements Serializable {
             for (Equivalencia equivalenciaListOldEquivalencia : equivalenciaListOld) {
                 if (!equivalenciaListNew.contains(equivalenciaListOldEquivalencia)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain Equivalencia " + equivalenciaListOldEquivalencia + " since its pedido field is not nullable.");
                 }
@@ -565,7 +588,7 @@ public class PedidoJpaController implements Serializable {
             for (SubmissaoRelatorioEstagio submissaoRelatorioEstagioListOldSubmissaoRelatorioEstagio : submissaoRelatorioEstagioListOld) {
                 if (!submissaoRelatorioEstagioListNew.contains(submissaoRelatorioEstagioListOldSubmissaoRelatorioEstagio)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain SubmissaoRelatorioEstagio " + submissaoRelatorioEstagioListOldSubmissaoRelatorioEstagio + " since its pedido field is not nullable.");
                 }
@@ -573,7 +596,7 @@ public class PedidoJpaController implements Serializable {
             for (SubmissaoMonografias submissaoMonografiasListOldSubmissaoMonografias : submissaoMonografiasListOld) {
                 if (!submissaoMonografiasListNew.contains(submissaoMonografiasListOldSubmissaoMonografias)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain SubmissaoMonografias " + submissaoMonografiasListOldSubmissaoMonografias + " since its pedido field is not nullable.");
                 }
@@ -581,7 +604,7 @@ public class PedidoJpaController implements Serializable {
             for (Declaracao declaracaoListOldDeclaracao : declaracaoListOld) {
                 if (!declaracaoListNew.contains(declaracaoListOldDeclaracao)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain Declaracao " + declaracaoListOldDeclaracao + " since its pedido field is not nullable.");
                 }
@@ -601,147 +624,147 @@ public class PedidoJpaController implements Serializable {
                 utilizadorNew = em.getReference(utilizadorNew.getClass(), utilizadorNew.getId());
                 pedido.setUtilizador(utilizadorNew);
             }
-            List<Pedido> attachedPedidoListNew = new ArrayList<Pedido>();
+            List<Pedido> attachedPedidoListNew = new ArrayList<>();
             for (Pedido pedidoListNewPedidoToAttach : pedidoListNew) {
                 pedidoListNewPedidoToAttach = em.getReference(pedidoListNewPedidoToAttach.getClass(), pedidoListNewPedidoToAttach.getId());
                 attachedPedidoListNew.add(pedidoListNewPedidoToAttach);
             }
             pedidoListNew = attachedPedidoListNew;
             pedido.setPedidoList(pedidoListNew);
-            List<Pedido> attachedPedidoList1New = new ArrayList<Pedido>();
+            List<Pedido> attachedPedidoList1New = new ArrayList<>();
             for (Pedido pedidoList1NewPedidoToAttach : pedidoList1New) {
                 pedidoList1NewPedidoToAttach = em.getReference(pedidoList1NewPedidoToAttach.getClass(), pedidoList1NewPedidoToAttach.getId());
                 attachedPedidoList1New.add(pedidoList1NewPedidoToAttach);
             }
             pedidoList1New = attachedPedidoList1New;
             pedido.setPedidoList1(pedidoList1New);
-            List<Pedido> attachedPedidoList2New = new ArrayList<Pedido>();
+            List<Pedido> attachedPedidoList2New = new ArrayList<>();
             for (Pedido pedidoList2NewPedidoToAttach : pedidoList2New) {
                 pedidoList2NewPedidoToAttach = em.getReference(pedidoList2NewPedidoToAttach.getClass(), pedidoList2NewPedidoToAttach.getId());
                 attachedPedidoList2New.add(pedidoList2NewPedidoToAttach);
             }
             pedidoList2New = attachedPedidoList2New;
             pedido.setPedidoList2(pedidoList2New);
-            List<Pedido> attachedPedidoList3New = new ArrayList<Pedido>();
+            List<Pedido> attachedPedidoList3New = new ArrayList<>();
             for (Pedido pedidoList3NewPedidoToAttach : pedidoList3New) {
                 pedidoList3NewPedidoToAttach = em.getReference(pedidoList3NewPedidoToAttach.getClass(), pedidoList3NewPedidoToAttach.getId());
                 attachedPedidoList3New.add(pedidoList3NewPedidoToAttach);
             }
             pedidoList3New = attachedPedidoList3New;
             pedido.setPedidoList3(pedidoList3New);
-            List<Pedido> attachedPedidoList4New = new ArrayList<Pedido>();
+            List<Pedido> attachedPedidoList4New = new ArrayList<>();
             for (Pedido pedidoList4NewPedidoToAttach : pedidoList4New) {
                 pedidoList4NewPedidoToAttach = em.getReference(pedidoList4NewPedidoToAttach.getClass(), pedidoList4NewPedidoToAttach.getId());
                 attachedPedidoList4New.add(pedidoList4NewPedidoToAttach);
             }
             pedidoList4New = attachedPedidoList4New;
             pedido.setPedidoList4(pedidoList4New);
-            List<Pedido> attachedPedidoList5New = new ArrayList<Pedido>();
+            List<Pedido> attachedPedidoList5New = new ArrayList<>();
             for (Pedido pedidoList5NewPedidoToAttach : pedidoList5New) {
                 pedidoList5NewPedidoToAttach = em.getReference(pedidoList5NewPedidoToAttach.getClass(), pedidoList5NewPedidoToAttach.getId());
                 attachedPedidoList5New.add(pedidoList5NewPedidoToAttach);
             }
             pedidoList5New = attachedPedidoList5New;
             pedido.setPedidoList5(pedidoList5New);
-            List<Pedido> attachedPedidoList6New = new ArrayList<Pedido>();
+            List<Pedido> attachedPedidoList6New = new ArrayList<>();
             for (Pedido pedidoList6NewPedidoToAttach : pedidoList6New) {
                 pedidoList6NewPedidoToAttach = em.getReference(pedidoList6NewPedidoToAttach.getClass(), pedidoList6NewPedidoToAttach.getId());
                 attachedPedidoList6New.add(pedidoList6NewPedidoToAttach);
             }
             pedidoList6New = attachedPedidoList6New;
             pedido.setPedidoList6(pedidoList6New);
-            List<Pedido> attachedPedidoList7New = new ArrayList<Pedido>();
+            List<Pedido> attachedPedidoList7New = new ArrayList<>();
             for (Pedido pedidoList7NewPedidoToAttach : pedidoList7New) {
                 pedidoList7NewPedidoToAttach = em.getReference(pedidoList7NewPedidoToAttach.getClass(), pedidoList7NewPedidoToAttach.getId());
                 attachedPedidoList7New.add(pedidoList7NewPedidoToAttach);
             }
             pedidoList7New = attachedPedidoList7New;
             pedido.setPedidoList7(pedidoList7New);
-            List<RealizacaoExame> attachedRealizacaoExameListNew = new ArrayList<RealizacaoExame>();
+            List<RealizacaoExame> attachedRealizacaoExameListNew = new ArrayList<>();
             for (RealizacaoExame realizacaoExameListNewRealizacaoExameToAttach : realizacaoExameListNew) {
                 realizacaoExameListNewRealizacaoExameToAttach = em.getReference(realizacaoExameListNewRealizacaoExameToAttach.getClass(), realizacaoExameListNewRealizacaoExameToAttach.getId());
                 attachedRealizacaoExameListNew.add(realizacaoExameListNewRealizacaoExameToAttach);
             }
             realizacaoExameListNew = attachedRealizacaoExameListNew;
             pedido.setRealizacaoExameList(realizacaoExameListNew);
-            List<MudancaCurso> attachedMudancaCursoListNew = new ArrayList<MudancaCurso>();
+            List<MudancaCurso> attachedMudancaCursoListNew = new ArrayList<>();
             for (MudancaCurso mudancaCursoListNewMudancaCursoToAttach : mudancaCursoListNew) {
                 mudancaCursoListNewMudancaCursoToAttach = em.getReference(mudancaCursoListNewMudancaCursoToAttach.getClass(), mudancaCursoListNewMudancaCursoToAttach.getId());
                 attachedMudancaCursoListNew.add(mudancaCursoListNewMudancaCursoToAttach);
             }
             mudancaCursoListNew = attachedMudancaCursoListNew;
             pedido.setMudancaCursoList(mudancaCursoListNew);
-            List<SituacaoDivida> attachedSituacaoDividaListNew = new ArrayList<SituacaoDivida>();
+            List<SituacaoDivida> attachedSituacaoDividaListNew = new ArrayList<>();
             for (SituacaoDivida situacaoDividaListNewSituacaoDividaToAttach : situacaoDividaListNew) {
                 situacaoDividaListNewSituacaoDividaToAttach = em.getReference(situacaoDividaListNewSituacaoDividaToAttach.getClass(), situacaoDividaListNewSituacaoDividaToAttach.getId());
                 attachedSituacaoDividaListNew.add(situacaoDividaListNewSituacaoDividaToAttach);
             }
             situacaoDividaListNew = attachedSituacaoDividaListNew;
             pedido.setSituacaoDividaList(situacaoDividaListNew);
-            List<TratamentoPedido> attachedTratamentoPedidoListNew = new ArrayList<TratamentoPedido>();
+            List<TratamentoPedido> attachedTratamentoPedidoListNew = new ArrayList<>();
             for (TratamentoPedido tratamentoPedidoListNewTratamentoPedidoToAttach : tratamentoPedidoListNew) {
                 tratamentoPedidoListNewTratamentoPedidoToAttach = em.getReference(tratamentoPedidoListNewTratamentoPedidoToAttach.getClass(), tratamentoPedidoListNewTratamentoPedidoToAttach.getId());
                 attachedTratamentoPedidoListNew.add(tratamentoPedidoListNewTratamentoPedidoToAttach);
             }
             tratamentoPedidoListNew = attachedTratamentoPedidoListNew;
             pedido.setTratamentoPedidoList(tratamentoPedidoListNew);
-            List<MatriculaForaEpoca> attachedMatriculaForaEpocaListNew = new ArrayList<MatriculaForaEpoca>();
+            List<MatriculaForaEpoca> attachedMatriculaForaEpocaListNew = new ArrayList<>();
             for (MatriculaForaEpoca matriculaForaEpocaListNewMatriculaForaEpocaToAttach : matriculaForaEpocaListNew) {
                 matriculaForaEpocaListNewMatriculaForaEpocaToAttach = em.getReference(matriculaForaEpocaListNewMatriculaForaEpocaToAttach.getClass(), matriculaForaEpocaListNewMatriculaForaEpocaToAttach.getId());
                 attachedMatriculaForaEpocaListNew.add(matriculaForaEpocaListNewMatriculaForaEpocaToAttach);
             }
             matriculaForaEpocaListNew = attachedMatriculaForaEpocaListNew;
             pedido.setMatriculaForaEpocaList(matriculaForaEpocaListNew);
-            List<Movimento> attachedMovimentoListNew = new ArrayList<Movimento>();
+            List<Movimento> attachedMovimentoListNew = new ArrayList<>();
             for (Movimento movimentoListNewMovimentoToAttach : movimentoListNew) {
                 movimentoListNewMovimentoToAttach = em.getReference(movimentoListNewMovimentoToAttach.getClass(), movimentoListNewMovimentoToAttach.getId());
                 attachedMovimentoListNew.add(movimentoListNewMovimentoToAttach);
             }
             movimentoListNew = attachedMovimentoListNew;
             pedido.setMovimentoList(movimentoListNew);
-            List<PedidosCertificados> attachedPedidosCertificadosListNew = new ArrayList<PedidosCertificados>();
+            List<PedidosCertificados> attachedPedidosCertificadosListNew = new ArrayList<>();
             for (PedidosCertificados pedidosCertificadosListNewPedidosCertificadosToAttach : pedidosCertificadosListNew) {
                 pedidosCertificadosListNewPedidosCertificadosToAttach = em.getReference(pedidosCertificadosListNewPedidosCertificadosToAttach.getClass(), pedidosCertificadosListNewPedidosCertificadosToAttach.getId());
                 attachedPedidosCertificadosListNew.add(pedidosCertificadosListNewPedidosCertificadosToAttach);
             }
             pedidosCertificadosListNew = attachedPedidosCertificadosListNew;
             pedido.setPedidosCertificadosList(pedidosCertificadosListNew);
-            List<TransferenciaCrs> attachedTransferenciaCrsListNew = new ArrayList<TransferenciaCrs>();
+            List<TransferenciaCrs> attachedTransferenciaCrsListNew = new ArrayList<>();
             for (TransferenciaCrs transferenciaCrsListNewTransferenciaCrsToAttach : transferenciaCrsListNew) {
                 transferenciaCrsListNewTransferenciaCrsToAttach = em.getReference(transferenciaCrsListNewTransferenciaCrsToAttach.getClass(), transferenciaCrsListNewTransferenciaCrsToAttach.getId());
                 attachedTransferenciaCrsListNew.add(transferenciaCrsListNewTransferenciaCrsToAttach);
             }
             transferenciaCrsListNew = attachedTransferenciaCrsListNew;
             pedido.setTransferenciaCrsList(transferenciaCrsListNew);
-            List<ReintegracaoAcademica> attachedReintegracaoAcademicaListNew = new ArrayList<ReintegracaoAcademica>();
+            List<ReintegracaoAcademica> attachedReintegracaoAcademicaListNew = new ArrayList<>();
             for (ReintegracaoAcademica reintegracaoAcademicaListNewReintegracaoAcademicaToAttach : reintegracaoAcademicaListNew) {
                 reintegracaoAcademicaListNewReintegracaoAcademicaToAttach = em.getReference(reintegracaoAcademicaListNewReintegracaoAcademicaToAttach.getClass(), reintegracaoAcademicaListNewReintegracaoAcademicaToAttach.getId());
                 attachedReintegracaoAcademicaListNew.add(reintegracaoAcademicaListNewReintegracaoAcademicaToAttach);
             }
             reintegracaoAcademicaListNew = attachedReintegracaoAcademicaListNew;
             pedido.setReintegracaoAcademicaList(reintegracaoAcademicaListNew);
-            List<Equivalencia> attachedEquivalenciaListNew = new ArrayList<Equivalencia>();
+            List<Equivalencia> attachedEquivalenciaListNew = new ArrayList<>();
             for (Equivalencia equivalenciaListNewEquivalenciaToAttach : equivalenciaListNew) {
                 equivalenciaListNewEquivalenciaToAttach = em.getReference(equivalenciaListNewEquivalenciaToAttach.getClass(), equivalenciaListNewEquivalenciaToAttach.getId());
                 attachedEquivalenciaListNew.add(equivalenciaListNewEquivalenciaToAttach);
             }
             equivalenciaListNew = attachedEquivalenciaListNew;
             pedido.setEquivalenciaList(equivalenciaListNew);
-            List<SubmissaoRelatorioEstagio> attachedSubmissaoRelatorioEstagioListNew = new ArrayList<SubmissaoRelatorioEstagio>();
+            List<SubmissaoRelatorioEstagio> attachedSubmissaoRelatorioEstagioListNew = new ArrayList<>();
             for (SubmissaoRelatorioEstagio submissaoRelatorioEstagioListNewSubmissaoRelatorioEstagioToAttach : submissaoRelatorioEstagioListNew) {
                 submissaoRelatorioEstagioListNewSubmissaoRelatorioEstagioToAttach = em.getReference(submissaoRelatorioEstagioListNewSubmissaoRelatorioEstagioToAttach.getClass(), submissaoRelatorioEstagioListNewSubmissaoRelatorioEstagioToAttach.getId());
                 attachedSubmissaoRelatorioEstagioListNew.add(submissaoRelatorioEstagioListNewSubmissaoRelatorioEstagioToAttach);
             }
             submissaoRelatorioEstagioListNew = attachedSubmissaoRelatorioEstagioListNew;
             pedido.setSubmissaoRelatorioEstagioList(submissaoRelatorioEstagioListNew);
-            List<SubmissaoMonografias> attachedSubmissaoMonografiasListNew = new ArrayList<SubmissaoMonografias>();
+            List<SubmissaoMonografias> attachedSubmissaoMonografiasListNew = new ArrayList<>();
             for (SubmissaoMonografias submissaoMonografiasListNewSubmissaoMonografiasToAttach : submissaoMonografiasListNew) {
                 submissaoMonografiasListNewSubmissaoMonografiasToAttach = em.getReference(submissaoMonografiasListNewSubmissaoMonografiasToAttach.getClass(), submissaoMonografiasListNewSubmissaoMonografiasToAttach.getId());
                 attachedSubmissaoMonografiasListNew.add(submissaoMonografiasListNewSubmissaoMonografiasToAttach);
             }
             submissaoMonografiasListNew = attachedSubmissaoMonografiasListNew;
             pedido.setSubmissaoMonografiasList(submissaoMonografiasListNew);
-            List<Declaracao> attachedDeclaracaoListNew = new ArrayList<Declaracao>();
+            List<Declaracao> attachedDeclaracaoListNew = new ArrayList<>();
             for (Declaracao declaracaoListNewDeclaracaoToAttach : declaracaoListNew) {
                 declaracaoListNewDeclaracaoToAttach = em.getReference(declaracaoListNewDeclaracaoToAttach.getClass(), declaracaoListNewDeclaracaoToAttach.getId());
                 attachedDeclaracaoListNew.add(declaracaoListNewDeclaracaoToAttach);
@@ -1029,6 +1052,12 @@ public class PedidoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @throws IllegalOrphanException
+     * @throws NonexistentEntityException
+     */
     public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -1045,91 +1074,91 @@ public class PedidoJpaController implements Serializable {
             List<RealizacaoExame> realizacaoExameListOrphanCheck = pedido.getRealizacaoExameList();
             for (RealizacaoExame realizacaoExameListOrphanCheckRealizacaoExame : realizacaoExameListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Pedido (" + pedido + ") cannot be destroyed since the RealizacaoExame " + realizacaoExameListOrphanCheckRealizacaoExame + " in its realizacaoExameList field has a non-nullable pedido field.");
             }
             List<MudancaCurso> mudancaCursoListOrphanCheck = pedido.getMudancaCursoList();
             for (MudancaCurso mudancaCursoListOrphanCheckMudancaCurso : mudancaCursoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Pedido (" + pedido + ") cannot be destroyed since the MudancaCurso " + mudancaCursoListOrphanCheckMudancaCurso + " in its mudancaCursoList field has a non-nullable pedido field.");
             }
             List<SituacaoDivida> situacaoDividaListOrphanCheck = pedido.getSituacaoDividaList();
             for (SituacaoDivida situacaoDividaListOrphanCheckSituacaoDivida : situacaoDividaListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Pedido (" + pedido + ") cannot be destroyed since the SituacaoDivida " + situacaoDividaListOrphanCheckSituacaoDivida + " in its situacaoDividaList field has a non-nullable pedido field.");
             }
             List<TratamentoPedido> tratamentoPedidoListOrphanCheck = pedido.getTratamentoPedidoList();
             for (TratamentoPedido tratamentoPedidoListOrphanCheckTratamentoPedido : tratamentoPedidoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Pedido (" + pedido + ") cannot be destroyed since the TratamentoPedido " + tratamentoPedidoListOrphanCheckTratamentoPedido + " in its tratamentoPedidoList field has a non-nullable pedido field.");
             }
             List<MatriculaForaEpoca> matriculaForaEpocaListOrphanCheck = pedido.getMatriculaForaEpocaList();
             for (MatriculaForaEpoca matriculaForaEpocaListOrphanCheckMatriculaForaEpoca : matriculaForaEpocaListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Pedido (" + pedido + ") cannot be destroyed since the MatriculaForaEpoca " + matriculaForaEpocaListOrphanCheckMatriculaForaEpoca + " in its matriculaForaEpocaList field has a non-nullable pedido field.");
             }
             List<Movimento> movimentoListOrphanCheck = pedido.getMovimentoList();
             for (Movimento movimentoListOrphanCheckMovimento : movimentoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Pedido (" + pedido + ") cannot be destroyed since the Movimento " + movimentoListOrphanCheckMovimento + " in its movimentoList field has a non-nullable pedido field.");
             }
             List<PedidosCertificados> pedidosCertificadosListOrphanCheck = pedido.getPedidosCertificadosList();
             for (PedidosCertificados pedidosCertificadosListOrphanCheckPedidosCertificados : pedidosCertificadosListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Pedido (" + pedido + ") cannot be destroyed since the PedidosCertificados " + pedidosCertificadosListOrphanCheckPedidosCertificados + " in its pedidosCertificadosList field has a non-nullable pedido field.");
             }
             List<TransferenciaCrs> transferenciaCrsListOrphanCheck = pedido.getTransferenciaCrsList();
             for (TransferenciaCrs transferenciaCrsListOrphanCheckTransferenciaCrs : transferenciaCrsListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Pedido (" + pedido + ") cannot be destroyed since the TransferenciaCrs " + transferenciaCrsListOrphanCheckTransferenciaCrs + " in its transferenciaCrsList field has a non-nullable pedido field.");
             }
             List<ReintegracaoAcademica> reintegracaoAcademicaListOrphanCheck = pedido.getReintegracaoAcademicaList();
             for (ReintegracaoAcademica reintegracaoAcademicaListOrphanCheckReintegracaoAcademica : reintegracaoAcademicaListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Pedido (" + pedido + ") cannot be destroyed since the ReintegracaoAcademica " + reintegracaoAcademicaListOrphanCheckReintegracaoAcademica + " in its reintegracaoAcademicaList field has a non-nullable pedido field.");
             }
             List<Equivalencia> equivalenciaListOrphanCheck = pedido.getEquivalenciaList();
             for (Equivalencia equivalenciaListOrphanCheckEquivalencia : equivalenciaListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Pedido (" + pedido + ") cannot be destroyed since the Equivalencia " + equivalenciaListOrphanCheckEquivalencia + " in its equivalenciaList field has a non-nullable pedido field.");
             }
             List<SubmissaoRelatorioEstagio> submissaoRelatorioEstagioListOrphanCheck = pedido.getSubmissaoRelatorioEstagioList();
             for (SubmissaoRelatorioEstagio submissaoRelatorioEstagioListOrphanCheckSubmissaoRelatorioEstagio : submissaoRelatorioEstagioListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Pedido (" + pedido + ") cannot be destroyed since the SubmissaoRelatorioEstagio " + submissaoRelatorioEstagioListOrphanCheckSubmissaoRelatorioEstagio + " in its submissaoRelatorioEstagioList field has a non-nullable pedido field.");
             }
             List<SubmissaoMonografias> submissaoMonografiasListOrphanCheck = pedido.getSubmissaoMonografiasList();
             for (SubmissaoMonografias submissaoMonografiasListOrphanCheckSubmissaoMonografias : submissaoMonografiasListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Pedido (" + pedido + ") cannot be destroyed since the SubmissaoMonografias " + submissaoMonografiasListOrphanCheckSubmissaoMonografias + " in its submissaoMonografiasList field has a non-nullable pedido field.");
             }
             List<Declaracao> declaracaoListOrphanCheck = pedido.getDeclaracaoList();
             for (Declaracao declaracaoListOrphanCheckDeclaracao : declaracaoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Pedido (" + pedido + ") cannot be destroyed since the Declaracao " + declaracaoListOrphanCheckDeclaracao + " in its declaracaoList field has a non-nullable pedido field.");
             }
@@ -1200,14 +1229,31 @@ public class PedidoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Pedido> findPedidoEntities() {
         return findPedidoEntities(true, -1, -1);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     public List<Pedido> findPedidoEntities(int maxResults, int firstResult) {
         return findPedidoEntities(false, maxResults, firstResult);
     }
 
+    /**
+     *
+     * @param all
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     private List<Pedido> findPedidoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -1224,6 +1270,11 @@ public class PedidoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Pedido findPedido(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -1233,6 +1284,10 @@ public class PedidoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getPedidoCount() {
         EntityManager em = getEntityManager();
         try {

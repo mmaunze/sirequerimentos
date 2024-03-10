@@ -1,7 +1,5 @@
 package servlet;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import controller.EstadoJpaController;
 import controller.MovimentoJpaController;
 import controller.PedidoJpaController;
@@ -13,6 +11,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
@@ -35,15 +35,54 @@ import modelo.Utilizador;
  */
 public class PedidoServlet extends HttpServlet {
     
+    /**
+     *
+     */
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaSubmissaoRequereimentosPU");
+
+    /**
+     *
+     */
     PedidoJpaController pedidoController = new PedidoJpaController(emf);
+
+    /**
+     *
+     */
     MovimentoJpaController movimentoController = new MovimentoJpaController(emf);
+
+    /**
+     *
+     */
     UtilizadorJpaController utilizadorController = new UtilizadorJpaController(emf);
+
+    /**
+     *
+     */
     SecretarioJpaController secretarioController = new SecretarioJpaController(emf);
+
+    /**
+     *
+     */
     TratamentoPedidoJpaController tratamentoPedidoController = new TratamentoPedidoJpaController(emf);
+
+    /**
+     *
+     */
     EstadoJpaController estadoController = new EstadoJpaController(emf);
+
+    /**
+     *
+     */
     TipoMovimentoJpaController tipoMovimentoController = new TipoMovimentoJpaController(emf);
+
+    /**
+     *
+     */
     SimpleDateFormat dia = new SimpleDateFormat("dd MMMM yyyy ");
+
+    /**
+     *
+     */
     SimpleDateFormat hora = new SimpleDateFormat("HH:MM:SS ");
 
     /**
@@ -92,6 +131,13 @@ public class PedidoServlet extends HttpServlet {
         
     }
     
+    /**
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -167,6 +213,13 @@ public class PedidoServlet extends HttpServlet {
         }
     }
 
+    /**
+     *
+     * @param pedido
+     * @param secretario
+     * @param datamovimento
+     * @return
+     */
     private String aprovar(Pedido pedido, Secretario secretario, Date datamovimento) {
 //verificar se os dados nao sao nulos
         if (pedido != null && secretario != null) {
@@ -229,7 +282,13 @@ public class PedidoServlet extends HttpServlet {
         }
     }
     
-    
+    /**
+     *
+     * @param pedido
+     * @param secretario
+     * @param datamovimento
+     * @return
+     */
     private String rejeitar(Pedido pedido, Secretario secretario, Date datamovimento) {
 //verificar se os dados nao sao nulos
         if (pedido != null && secretario != null) {
@@ -292,7 +351,12 @@ public class PedidoServlet extends HttpServlet {
         }
     }
     
-    
+    /**
+     *
+     * @param pedido
+     * @param utilizador
+     * @return
+     */
     private String cancelar(Pedido pedido, Utilizador utilizador) {
 //verificar se os dados nao sao nulos
         if (pedido != null && utilizador != null) {

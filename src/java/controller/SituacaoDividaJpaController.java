@@ -9,8 +9,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import modelo.Pedido;
@@ -22,15 +22,31 @@ import modelo.SituacaoDivida;
  */
 public class SituacaoDividaJpaController implements Serializable {
 
+
+    /**
+     *
+     */
+    private EntityManagerFactory emf = null;
+    /**
+     *
+     * @param emf
+     */
     public SituacaoDividaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     *
+     * @param situacaoDivida
+     */
     public void create(SituacaoDivida situacaoDivida) {
         EntityManager em = null;
         try {
@@ -54,6 +70,12 @@ public class SituacaoDividaJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param situacaoDivida
+     * @throws NonexistentEntityException
+     * @throws Exception
+     */
     public void edit(SituacaoDivida situacaoDivida) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -92,6 +114,11 @@ public class SituacaoDividaJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @throws NonexistentEntityException
+     */
     public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -118,14 +145,31 @@ public class SituacaoDividaJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<SituacaoDivida> findSituacaoDividaEntities() {
         return findSituacaoDividaEntities(true, -1, -1);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     public List<SituacaoDivida> findSituacaoDividaEntities(int maxResults, int firstResult) {
         return findSituacaoDividaEntities(false, maxResults, firstResult);
     }
 
+    /**
+     *
+     * @param all
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     private List<SituacaoDivida> findSituacaoDividaEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -142,6 +186,11 @@ public class SituacaoDividaJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public SituacaoDivida findSituacaoDivida(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -151,6 +200,10 @@ public class SituacaoDividaJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getSituacaoDividaCount() {
         EntityManager em = getEntityManager();
         try {

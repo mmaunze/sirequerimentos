@@ -7,15 +7,15 @@ package controller;
 import controller.exceptions.IllegalOrphanException;
 import controller.exceptions.NonexistentEntityException;
 import java.io.Serializable;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import modelo.Declaracao;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import modelo.Declaracao;
 import modelo.TipoDelacarao;
 
 /**
@@ -24,24 +24,40 @@ import modelo.TipoDelacarao;
  */
 public class TipoDelacaraoJpaController implements Serializable {
 
+
+    /**
+     *
+     */
+    private EntityManagerFactory emf = null;
+    /**
+     *
+     * @param emf
+     */
     public TipoDelacaraoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     *
+     * @param tipoDelacarao
+     */
     public void create(TipoDelacarao tipoDelacarao) {
         if (tipoDelacarao.getDeclaracaoList() == null) {
-            tipoDelacarao.setDeclaracaoList(new ArrayList<Declaracao>());
+            tipoDelacarao.setDeclaracaoList(new ArrayList<>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Declaracao> attachedDeclaracaoList = new ArrayList<Declaracao>();
+            List<Declaracao> attachedDeclaracaoList = new ArrayList<>();
             for (Declaracao declaracaoListDeclaracaoToAttach : tipoDelacarao.getDeclaracaoList()) {
                 declaracaoListDeclaracaoToAttach = em.getReference(declaracaoListDeclaracaoToAttach.getClass(), declaracaoListDeclaracaoToAttach.getId());
                 attachedDeclaracaoList.add(declaracaoListDeclaracaoToAttach);
@@ -65,6 +81,13 @@ public class TipoDelacaraoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param tipoDelacarao
+     * @throws IllegalOrphanException
+     * @throws NonexistentEntityException
+     * @throws Exception
+     */
     public void edit(TipoDelacarao tipoDelacarao) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -77,7 +100,7 @@ public class TipoDelacaraoJpaController implements Serializable {
             for (Declaracao declaracaoListOldDeclaracao : declaracaoListOld) {
                 if (!declaracaoListNew.contains(declaracaoListOldDeclaracao)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain Declaracao " + declaracaoListOldDeclaracao + " since its tipoDelacarao field is not nullable.");
                 }
@@ -85,7 +108,7 @@ public class TipoDelacaraoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            List<Declaracao> attachedDeclaracaoListNew = new ArrayList<Declaracao>();
+            List<Declaracao> attachedDeclaracaoListNew = new ArrayList<>();
             for (Declaracao declaracaoListNewDeclaracaoToAttach : declaracaoListNew) {
                 declaracaoListNewDeclaracaoToAttach = em.getReference(declaracaoListNewDeclaracaoToAttach.getClass(), declaracaoListNewDeclaracaoToAttach.getId());
                 attachedDeclaracaoListNew.add(declaracaoListNewDeclaracaoToAttach);
@@ -121,6 +144,12 @@ public class TipoDelacaraoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @throws IllegalOrphanException
+     * @throws NonexistentEntityException
+     */
     public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -137,7 +166,7 @@ public class TipoDelacaraoJpaController implements Serializable {
             List<Declaracao> declaracaoListOrphanCheck = tipoDelacarao.getDeclaracaoList();
             for (Declaracao declaracaoListOrphanCheckDeclaracao : declaracaoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This TipoDelacarao (" + tipoDelacarao + ") cannot be destroyed since the Declaracao " + declaracaoListOrphanCheckDeclaracao + " in its declaracaoList field has a non-nullable tipoDelacarao field.");
             }
@@ -153,14 +182,31 @@ public class TipoDelacaraoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<TipoDelacarao> findTipoDelacaraoEntities() {
         return findTipoDelacaraoEntities(true, -1, -1);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     public List<TipoDelacarao> findTipoDelacaraoEntities(int maxResults, int firstResult) {
         return findTipoDelacaraoEntities(false, maxResults, firstResult);
     }
 
+    /**
+     *
+     * @param all
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     private List<TipoDelacarao> findTipoDelacaraoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -177,6 +223,11 @@ public class TipoDelacaraoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public TipoDelacarao findTipoDelacarao(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -186,6 +237,10 @@ public class TipoDelacaraoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getTipoDelacaraoCount() {
         EntityManager em = getEntityManager();
         try {

@@ -7,16 +7,16 @@ package controller;
 import controller.exceptions.IllegalOrphanException;
 import controller.exceptions.NonexistentEntityException;
 import java.io.Serializable;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import modelo.Pedido;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import modelo.Estado;
+import modelo.Pedido;
 
 /**
  *
@@ -24,24 +24,40 @@ import modelo.Estado;
  */
 public class EstadoJpaController implements Serializable {
 
+
+    /**
+     *
+     */
+    private EntityManagerFactory emf = null;
+    /**
+     *
+     * @param emf
+     */
     public EstadoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     *
+     * @param estado
+     */
     public void create(Estado estado) {
         if (estado.getPedidoList() == null) {
-            estado.setPedidoList(new ArrayList<Pedido>());
+            estado.setPedidoList(new ArrayList<>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Pedido> attachedPedidoList = new ArrayList<Pedido>();
+            List<Pedido> attachedPedidoList = new ArrayList<>();
             for (Pedido pedidoListPedidoToAttach : estado.getPedidoList()) {
                 pedidoListPedidoToAttach = em.getReference(pedidoListPedidoToAttach.getClass(), pedidoListPedidoToAttach.getId());
                 attachedPedidoList.add(pedidoListPedidoToAttach);
@@ -65,6 +81,13 @@ public class EstadoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param estado
+     * @throws IllegalOrphanException
+     * @throws NonexistentEntityException
+     * @throws Exception
+     */
     public void edit(Estado estado) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -77,7 +100,7 @@ public class EstadoJpaController implements Serializable {
             for (Pedido pedidoListOldPedido : pedidoListOld) {
                 if (!pedidoListNew.contains(pedidoListOldPedido)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain Pedido " + pedidoListOldPedido + " since its estado field is not nullable.");
                 }
@@ -85,7 +108,7 @@ public class EstadoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            List<Pedido> attachedPedidoListNew = new ArrayList<Pedido>();
+            List<Pedido> attachedPedidoListNew = new ArrayList<>();
             for (Pedido pedidoListNewPedidoToAttach : pedidoListNew) {
                 pedidoListNewPedidoToAttach = em.getReference(pedidoListNewPedidoToAttach.getClass(), pedidoListNewPedidoToAttach.getId());
                 attachedPedidoListNew.add(pedidoListNewPedidoToAttach);
@@ -121,6 +144,12 @@ public class EstadoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @throws IllegalOrphanException
+     * @throws NonexistentEntityException
+     */
     public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -137,7 +166,7 @@ public class EstadoJpaController implements Serializable {
             List<Pedido> pedidoListOrphanCheck = estado.getPedidoList();
             for (Pedido pedidoListOrphanCheckPedido : pedidoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Estado (" + estado + ") cannot be destroyed since the Pedido " + pedidoListOrphanCheckPedido + " in its pedidoList field has a non-nullable estado field.");
             }
@@ -153,14 +182,31 @@ public class EstadoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Estado> findEstadoEntities() {
         return findEstadoEntities(true, -1, -1);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     public List<Estado> findEstadoEntities(int maxResults, int firstResult) {
         return findEstadoEntities(false, maxResults, firstResult);
     }
 
+    /**
+     *
+     * @param all
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     private List<Estado> findEstadoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -177,6 +223,11 @@ public class EstadoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Estado findEstado(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -186,6 +237,10 @@ public class EstadoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getEstadoCount() {
         EntityManager em = getEntityManager();
         try {

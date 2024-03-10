@@ -35,75 +35,154 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Instituicao.findByNome", query = "SELECT i FROM Instituicao i WHERE i.nome = :nome")})
 public class Instituicao implements Serializable {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_instituicao", nullable = false)
     private Integer idInstituicao;
+
+    /**
+     *
+     */
     @Column(length = 255)
     private String endereco;
+
+    /**
+     *
+     */
     @Column(length = 255)
     private String lema;
+
+    /**
+     *
+     */
     @Basic(optional = false)
     @Column(nullable = false, length = 255)
     private String nome;
+
+    /**
+     *
+     */
     @OneToMany(mappedBy = "idInstituicao", fetch = FetchType.EAGER)
     private List<Usuario> usuarioList;
 
+    /**
+     *
+     */
     public Instituicao() {
     }
 
+    /**
+     *
+     * @param idInstituicao
+     */
     public Instituicao(Integer idInstituicao) {
         this.idInstituicao = idInstituicao;
     }
 
+    /**
+     *
+     * @param idInstituicao
+     * @param nome
+     */
     public Instituicao(Integer idInstituicao, String nome) {
         this.idInstituicao = idInstituicao;
         this.nome = nome;
     }
 
+    /**
+     *
+     * @return
+     */
     public Integer getIdInstituicao() {
         return idInstituicao;
     }
 
+    /**
+     *
+     * @param idInstituicao
+     */
     public void setIdInstituicao(Integer idInstituicao) {
         this.idInstituicao = idInstituicao;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getEndereco() {
         return endereco;
     }
 
+    /**
+     *
+     * @param endereco
+     */
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getLema() {
         return lema;
     }
 
+    /**
+     *
+     * @param lema
+     */
     public void setLema(String lema) {
         this.lema = lema;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNome() {
         return nome;
     }
 
+    /**
+     *
+     * @param nome
+     */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    /**
+     *
+     * @return
+     */
     @XmlTransient
     public List<Usuario> getUsuarioList() {
         return usuarioList;
     }
 
+    /**
+     *
+     * @param usuarioList
+     */
     public void setUsuarioList(List<Usuario> usuarioList) {
         this.usuarioList = usuarioList;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -111,6 +190,11 @@ public class Instituicao implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -124,6 +208,10 @@ public class Instituicao implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "modelo.Instituicao[ idInstituicao=" + idInstituicao + " ]";

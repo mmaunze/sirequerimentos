@@ -31,61 +31,123 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MudancaCurso.findById", query = "SELECT m FROM MudancaCurso m WHERE m.id = :id")})
 public class MudancaCurso implements Serializable {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
     private Long id;
+
+    /**
+     *
+     */
     @JoinColumn(name = "curso_destino", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Curso cursoDestino;
+
+    /**
+     *
+     */
     @JoinColumn(name = "cuso_origem", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Curso cusoOrigem;
+
+    /**
+     *
+     */
     @JoinColumn(name = "pedido", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Pedido pedido;
 
+    /**
+     *
+     */
     public MudancaCurso() {
     }
 
+    /**
+     *
+     * @param id
+     */
     public MudancaCurso(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public Curso getCursoDestino() {
         return cursoDestino;
     }
 
+    /**
+     *
+     * @param cursoDestino
+     */
     public void setCursoDestino(Curso cursoDestino) {
         this.cursoDestino = cursoDestino;
     }
 
+    /**
+     *
+     * @return
+     */
     public Curso getCusoOrigem() {
         return cusoOrigem;
     }
 
+    /**
+     *
+     * @param cusoOrigem
+     */
     public void setCusoOrigem(Curso cusoOrigem) {
         this.cusoOrigem = cusoOrigem;
     }
 
+    /**
+     *
+     * @return
+     */
     public Pedido getPedido() {
         return pedido;
     }
 
+    /**
+     *
+     * @param pedido
+     */
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -93,6 +155,11 @@ public class MudancaCurso implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -106,6 +173,10 @@ public class MudancaCurso implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "modelo.MudancaCurso[ id=" + id + " ]";

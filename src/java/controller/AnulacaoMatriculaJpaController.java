@@ -9,8 +9,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import modelo.AnulacaoMatricula;
@@ -21,15 +21,31 @@ import modelo.AnulacaoMatricula;
  */
 public class AnulacaoMatriculaJpaController implements Serializable {
 
+
+    /**
+     *
+     */
+    private EntityManagerFactory emf = null;
+    /**
+     *
+     * @param emf
+     */
     public AnulacaoMatriculaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     *
+     * @param anulacaoMatricula
+     */
     public void create(AnulacaoMatricula anulacaoMatricula) {
         EntityManager em = null;
         try {
@@ -44,6 +60,12 @@ public class AnulacaoMatriculaJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param anulacaoMatricula
+     * @throws NonexistentEntityException
+     * @throws Exception
+     */
     public void edit(AnulacaoMatricula anulacaoMatricula) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -67,6 +89,11 @@ public class AnulacaoMatriculaJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @throws NonexistentEntityException
+     */
     public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -88,14 +115,31 @@ public class AnulacaoMatriculaJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<AnulacaoMatricula> findAnulacaoMatriculaEntities() {
         return findAnulacaoMatriculaEntities(true, -1, -1);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     public List<AnulacaoMatricula> findAnulacaoMatriculaEntities(int maxResults, int firstResult) {
         return findAnulacaoMatriculaEntities(false, maxResults, firstResult);
     }
 
+    /**
+     *
+     * @param all
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     private List<AnulacaoMatricula> findAnulacaoMatriculaEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -112,6 +156,11 @@ public class AnulacaoMatriculaJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public AnulacaoMatricula findAnulacaoMatricula(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -121,6 +170,10 @@ public class AnulacaoMatriculaJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getAnulacaoMatriculaCount() {
         EntityManager em = getEntityManager();
         try {

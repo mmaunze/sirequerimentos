@@ -36,49 +36,99 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TipoDelacarao.findByDescricao", query = "SELECT t FROM TipoDelacarao t WHERE t.descricao = :descricao")})
 public class TipoDelacarao implements Serializable {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
     private Long id;
+
+    /**
+     *
+     */
     @Column(length = 100)
     private String descricao;
+
+    /**
+     *
+     */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoDelacarao", fetch = FetchType.EAGER)
     private List<Declaracao> declaracaoList;
 
+    /**
+     *
+     */
     public TipoDelacarao() {
     }
 
+    /**
+     *
+     * @param id
+     */
     public TipoDelacarao(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDescricao() {
         return descricao;
     }
 
+    /**
+     *
+     * @param descricao
+     */
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 
+    /**
+     *
+     * @return
+     */
     @XmlTransient
     public List<Declaracao> getDeclaracaoList() {
         return declaracaoList;
     }
 
+    /**
+     *
+     * @param declaracaoList
+     */
     public void setDeclaracaoList(List<Declaracao> declaracaoList) {
         this.declaracaoList = declaracaoList;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -86,6 +136,11 @@ public class TipoDelacarao implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -99,6 +154,10 @@ public class TipoDelacarao implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "modelo.TipoDelacarao[ id=" + id + " ]";

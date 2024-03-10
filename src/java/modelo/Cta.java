@@ -31,59 +31,121 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Cta.findByGrau", query = "SELECT c FROM Cta c WHERE c.grau = :grau")})
 public class Cta implements Serializable {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
     @Id
     @Basic(optional = false)
     @Column(nullable = false)
     private Long utilizador;
+
+    /**
+     *
+     */
     @Column(length = 50)
     private String grau;
+
+    /**
+     *
+     */
     @JoinColumn(name = "cargo", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Cargo cargo;
+
+    /**
+     *
+     */
     @JoinColumn(name = "utilizador", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     @OneToOne(optional = false, fetch = FetchType.EAGER)
     private Utilizador utilizador1;
 
+    /**
+     *
+     */
     public Cta() {
     }
 
+    /**
+     *
+     * @param utilizador
+     */
     public Cta(Long utilizador) {
         this.utilizador = utilizador;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getUtilizador() {
         return utilizador;
     }
 
+    /**
+     *
+     * @param utilizador
+     */
     public void setUtilizador(Long utilizador) {
         this.utilizador = utilizador;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getGrau() {
         return grau;
     }
 
+    /**
+     *
+     * @param grau
+     */
     public void setGrau(String grau) {
         this.grau = grau;
     }
 
+    /**
+     *
+     * @return
+     */
     public Cargo getCargo() {
         return cargo;
     }
 
+    /**
+     *
+     * @param cargo
+     */
     public void setCargo(Cargo cargo) {
         this.cargo = cargo;
     }
 
+    /**
+     *
+     * @return
+     */
     public Utilizador getUtilizador1() {
         return utilizador1;
     }
 
+    /**
+     *
+     * @param utilizador1
+     */
     public void setUtilizador1(Utilizador utilizador1) {
         this.utilizador1 = utilizador1;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -91,6 +153,11 @@ public class Cta implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -104,6 +171,10 @@ public class Cta implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "modelo.Cta[ utilizador=" + utilizador + " ]";

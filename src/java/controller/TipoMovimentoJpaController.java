@@ -7,15 +7,15 @@ package controller;
 import controller.exceptions.IllegalOrphanException;
 import controller.exceptions.NonexistentEntityException;
 import java.io.Serializable;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import modelo.Movimento;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import modelo.Movimento;
 import modelo.TipoMovimento;
 
 /**
@@ -24,24 +24,40 @@ import modelo.TipoMovimento;
  */
 public class TipoMovimentoJpaController implements Serializable {
 
+
+    /**
+     *
+     */
+    private EntityManagerFactory emf = null;
+    /**
+     *
+     * @param emf
+     */
     public TipoMovimentoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     *
+     * @param tipoMovimento
+     */
     public void create(TipoMovimento tipoMovimento) {
         if (tipoMovimento.getMovimentoList() == null) {
-            tipoMovimento.setMovimentoList(new ArrayList<Movimento>());
+            tipoMovimento.setMovimentoList(new ArrayList<>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Movimento> attachedMovimentoList = new ArrayList<Movimento>();
+            List<Movimento> attachedMovimentoList = new ArrayList<>();
             for (Movimento movimentoListMovimentoToAttach : tipoMovimento.getMovimentoList()) {
                 movimentoListMovimentoToAttach = em.getReference(movimentoListMovimentoToAttach.getClass(), movimentoListMovimentoToAttach.getId());
                 attachedMovimentoList.add(movimentoListMovimentoToAttach);
@@ -65,6 +81,13 @@ public class TipoMovimentoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param tipoMovimento
+     * @throws IllegalOrphanException
+     * @throws NonexistentEntityException
+     * @throws Exception
+     */
     public void edit(TipoMovimento tipoMovimento) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -77,7 +100,7 @@ public class TipoMovimentoJpaController implements Serializable {
             for (Movimento movimentoListOldMovimento : movimentoListOld) {
                 if (!movimentoListNew.contains(movimentoListOldMovimento)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain Movimento " + movimentoListOldMovimento + " since its tipoMovimento field is not nullable.");
                 }
@@ -85,7 +108,7 @@ public class TipoMovimentoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            List<Movimento> attachedMovimentoListNew = new ArrayList<Movimento>();
+            List<Movimento> attachedMovimentoListNew = new ArrayList<>();
             for (Movimento movimentoListNewMovimentoToAttach : movimentoListNew) {
                 movimentoListNewMovimentoToAttach = em.getReference(movimentoListNewMovimentoToAttach.getClass(), movimentoListNewMovimentoToAttach.getId());
                 attachedMovimentoListNew.add(movimentoListNewMovimentoToAttach);
@@ -121,6 +144,12 @@ public class TipoMovimentoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @throws IllegalOrphanException
+     * @throws NonexistentEntityException
+     */
     public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -137,7 +166,7 @@ public class TipoMovimentoJpaController implements Serializable {
             List<Movimento> movimentoListOrphanCheck = tipoMovimento.getMovimentoList();
             for (Movimento movimentoListOrphanCheckMovimento : movimentoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This TipoMovimento (" + tipoMovimento + ") cannot be destroyed since the Movimento " + movimentoListOrphanCheckMovimento + " in its movimentoList field has a non-nullable tipoMovimento field.");
             }
@@ -153,14 +182,31 @@ public class TipoMovimentoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<TipoMovimento> findTipoMovimentoEntities() {
         return findTipoMovimentoEntities(true, -1, -1);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     public List<TipoMovimento> findTipoMovimentoEntities(int maxResults, int firstResult) {
         return findTipoMovimentoEntities(false, maxResults, firstResult);
     }
 
+    /**
+     *
+     * @param all
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     private List<TipoMovimento> findTipoMovimentoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -177,6 +223,11 @@ public class TipoMovimentoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public TipoMovimento findTipoMovimento(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -186,6 +237,10 @@ public class TipoMovimentoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getTipoMovimentoCount() {
         EntityManager em = getEntityManager();
         try {

@@ -38,65 +38,132 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Departamento.findBySigla", query = "SELECT d FROM Departamento d WHERE d.sigla = :sigla")})
 public class Departamento implements Serializable {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
     private Long id;
+
+    /**
+     *
+     */
     @Basic(optional = false)
     @Column(nullable = false, length = 255)
     private String descricao;
+
+    /**
+     *
+     */
     @Column(length = 10)
     private String sigla;
+
+    /**
+     *
+     */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamento", fetch = FetchType.EAGER)
     private List<Utilizador> utilizadorList;
 
+    /**
+     *
+     */
     public Departamento() {
     }
 
+    /**
+     *
+     * @param id
+     */
     public Departamento(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @param id
+     * @param descricao
+     */
     public Departamento(Long id, String descricao) {
         this.id = id;
         this.descricao = descricao;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDescricao() {
         return descricao;
     }
 
+    /**
+     *
+     * @param descricao
+     */
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getSigla() {
         return sigla;
     }
 
+    /**
+     *
+     * @param sigla
+     */
     public void setSigla(String sigla) {
         this.sigla = sigla;
     }
 
+    /**
+     *
+     * @return
+     */
     @XmlTransient
     public List<Utilizador> getUtilizadorList() {
         return utilizadorList;
     }
 
+    /**
+     *
+     * @param utilizadorList
+     */
     public void setUtilizadorList(List<Utilizador> utilizadorList) {
         this.utilizadorList = utilizadorList;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -104,6 +171,11 @@ public class Departamento implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -117,6 +189,10 @@ public class Departamento implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "modelo.Departamento[ id=" + id + " ]";

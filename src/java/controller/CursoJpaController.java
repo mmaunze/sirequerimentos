@@ -7,18 +7,18 @@ package controller;
 import controller.exceptions.IllegalOrphanException;
 import controller.exceptions.NonexistentEntityException;
 import java.io.Serializable;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import modelo.Faculdade;
-import modelo.MudancaCurso;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import modelo.Curso;
 import modelo.Estudante;
+import modelo.Faculdade;
+import modelo.MudancaCurso;
 
 /**
  *
@@ -26,24 +26,40 @@ import modelo.Estudante;
  */
 public class CursoJpaController implements Serializable {
 
+
+    /**
+     *
+     */
+    private EntityManagerFactory emf = null;
+    /**
+     *
+     * @param emf
+     */
     public CursoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     *
+     * @param curso
+     */
     public void create(Curso curso) {
         if (curso.getMudancaCursoList() == null) {
-            curso.setMudancaCursoList(new ArrayList<MudancaCurso>());
+            curso.setMudancaCursoList(new ArrayList<>());
         }
         if (curso.getMudancaCursoList1() == null) {
-            curso.setMudancaCursoList1(new ArrayList<MudancaCurso>());
+            curso.setMudancaCursoList1(new ArrayList<>());
         }
         if (curso.getEstudanteList() == null) {
-            curso.setEstudanteList(new ArrayList<Estudante>());
+            curso.setEstudanteList(new ArrayList<>());
         }
         EntityManager em = null;
         try {
@@ -54,19 +70,19 @@ public class CursoJpaController implements Serializable {
                 faculdade = em.getReference(faculdade.getClass(), faculdade.getId());
                 curso.setFaculdade(faculdade);
             }
-            List<MudancaCurso> attachedMudancaCursoList = new ArrayList<MudancaCurso>();
+            List<MudancaCurso> attachedMudancaCursoList = new ArrayList<>();
             for (MudancaCurso mudancaCursoListMudancaCursoToAttach : curso.getMudancaCursoList()) {
                 mudancaCursoListMudancaCursoToAttach = em.getReference(mudancaCursoListMudancaCursoToAttach.getClass(), mudancaCursoListMudancaCursoToAttach.getId());
                 attachedMudancaCursoList.add(mudancaCursoListMudancaCursoToAttach);
             }
             curso.setMudancaCursoList(attachedMudancaCursoList);
-            List<MudancaCurso> attachedMudancaCursoList1 = new ArrayList<MudancaCurso>();
+            List<MudancaCurso> attachedMudancaCursoList1 = new ArrayList<>();
             for (MudancaCurso mudancaCursoList1MudancaCursoToAttach : curso.getMudancaCursoList1()) {
                 mudancaCursoList1MudancaCursoToAttach = em.getReference(mudancaCursoList1MudancaCursoToAttach.getClass(), mudancaCursoList1MudancaCursoToAttach.getId());
                 attachedMudancaCursoList1.add(mudancaCursoList1MudancaCursoToAttach);
             }
             curso.setMudancaCursoList1(attachedMudancaCursoList1);
-            List<Estudante> attachedEstudanteList = new ArrayList<Estudante>();
+            List<Estudante> attachedEstudanteList = new ArrayList<>();
             for (Estudante estudanteListEstudanteToAttach : curso.getEstudanteList()) {
                 estudanteListEstudanteToAttach = em.getReference(estudanteListEstudanteToAttach.getClass(), estudanteListEstudanteToAttach.getUtilizador());
                 attachedEstudanteList.add(estudanteListEstudanteToAttach);
@@ -112,6 +128,13 @@ public class CursoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param curso
+     * @throws IllegalOrphanException
+     * @throws NonexistentEntityException
+     * @throws Exception
+     */
     public void edit(Curso curso) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -130,7 +153,7 @@ public class CursoJpaController implements Serializable {
             for (MudancaCurso mudancaCursoListOldMudancaCurso : mudancaCursoListOld) {
                 if (!mudancaCursoListNew.contains(mudancaCursoListOldMudancaCurso)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain MudancaCurso " + mudancaCursoListOldMudancaCurso + " since its cursoDestino field is not nullable.");
                 }
@@ -138,7 +161,7 @@ public class CursoJpaController implements Serializable {
             for (MudancaCurso mudancaCursoList1OldMudancaCurso : mudancaCursoList1Old) {
                 if (!mudancaCursoList1New.contains(mudancaCursoList1OldMudancaCurso)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain MudancaCurso " + mudancaCursoList1OldMudancaCurso + " since its cusoOrigem field is not nullable.");
                 }
@@ -146,7 +169,7 @@ public class CursoJpaController implements Serializable {
             for (Estudante estudanteListOldEstudante : estudanteListOld) {
                 if (!estudanteListNew.contains(estudanteListOldEstudante)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain Estudante " + estudanteListOldEstudante + " since its curso field is not nullable.");
                 }
@@ -158,21 +181,21 @@ public class CursoJpaController implements Serializable {
                 faculdadeNew = em.getReference(faculdadeNew.getClass(), faculdadeNew.getId());
                 curso.setFaculdade(faculdadeNew);
             }
-            List<MudancaCurso> attachedMudancaCursoListNew = new ArrayList<MudancaCurso>();
+            List<MudancaCurso> attachedMudancaCursoListNew = new ArrayList<>();
             for (MudancaCurso mudancaCursoListNewMudancaCursoToAttach : mudancaCursoListNew) {
                 mudancaCursoListNewMudancaCursoToAttach = em.getReference(mudancaCursoListNewMudancaCursoToAttach.getClass(), mudancaCursoListNewMudancaCursoToAttach.getId());
                 attachedMudancaCursoListNew.add(mudancaCursoListNewMudancaCursoToAttach);
             }
             mudancaCursoListNew = attachedMudancaCursoListNew;
             curso.setMudancaCursoList(mudancaCursoListNew);
-            List<MudancaCurso> attachedMudancaCursoList1New = new ArrayList<MudancaCurso>();
+            List<MudancaCurso> attachedMudancaCursoList1New = new ArrayList<>();
             for (MudancaCurso mudancaCursoList1NewMudancaCursoToAttach : mudancaCursoList1New) {
                 mudancaCursoList1NewMudancaCursoToAttach = em.getReference(mudancaCursoList1NewMudancaCursoToAttach.getClass(), mudancaCursoList1NewMudancaCursoToAttach.getId());
                 attachedMudancaCursoList1New.add(mudancaCursoList1NewMudancaCursoToAttach);
             }
             mudancaCursoList1New = attachedMudancaCursoList1New;
             curso.setMudancaCursoList1(mudancaCursoList1New);
-            List<Estudante> attachedEstudanteListNew = new ArrayList<Estudante>();
+            List<Estudante> attachedEstudanteListNew = new ArrayList<>();
             for (Estudante estudanteListNewEstudanteToAttach : estudanteListNew) {
                 estudanteListNewEstudanteToAttach = em.getReference(estudanteListNewEstudanteToAttach.getClass(), estudanteListNewEstudanteToAttach.getUtilizador());
                 attachedEstudanteListNew.add(estudanteListNewEstudanteToAttach);
@@ -238,6 +261,12 @@ public class CursoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @throws IllegalOrphanException
+     * @throws NonexistentEntityException
+     */
     public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -254,21 +283,21 @@ public class CursoJpaController implements Serializable {
             List<MudancaCurso> mudancaCursoListOrphanCheck = curso.getMudancaCursoList();
             for (MudancaCurso mudancaCursoListOrphanCheckMudancaCurso : mudancaCursoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Curso (" + curso + ") cannot be destroyed since the MudancaCurso " + mudancaCursoListOrphanCheckMudancaCurso + " in its mudancaCursoList field has a non-nullable cursoDestino field.");
             }
             List<MudancaCurso> mudancaCursoList1OrphanCheck = curso.getMudancaCursoList1();
             for (MudancaCurso mudancaCursoList1OrphanCheckMudancaCurso : mudancaCursoList1OrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Curso (" + curso + ") cannot be destroyed since the MudancaCurso " + mudancaCursoList1OrphanCheckMudancaCurso + " in its mudancaCursoList1 field has a non-nullable cusoOrigem field.");
             }
             List<Estudante> estudanteListOrphanCheck = curso.getEstudanteList();
             for (Estudante estudanteListOrphanCheckEstudante : estudanteListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Curso (" + curso + ") cannot be destroyed since the Estudante " + estudanteListOrphanCheckEstudante + " in its estudanteList field has a non-nullable curso field.");
             }
@@ -289,14 +318,31 @@ public class CursoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Curso> findCursoEntities() {
         return findCursoEntities(true, -1, -1);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     public List<Curso> findCursoEntities(int maxResults, int firstResult) {
         return findCursoEntities(false, maxResults, firstResult);
     }
 
+    /**
+     *
+     * @param all
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     private List<Curso> findCursoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -313,6 +359,11 @@ public class CursoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Curso findCurso(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -322,6 +373,10 @@ public class CursoJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getCursoCount() {
         EntityManager em = getEntityManager();
         try {

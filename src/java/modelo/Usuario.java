@@ -37,34 +37,75 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Usuario.findByUsername", query = "SELECT u FROM Usuario u WHERE u.username = :username")})
 public class Usuario implements Serializable {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_usuario", nullable = false)
     private Integer idUsuario;
+
+    /**
+     *
+     */
     @Column(name = "nivel_permissao")
     private Integer nivelPermissao;
+
+    /**
+     *
+     */
     @Basic(optional = false)
     @Column(nullable = false, length = 255)
     private String nome;
+
+    /**
+     *
+     */
     @Basic(optional = false)
     @Column(nullable = false, length = 255)
     private String senha;
+
+    /**
+     *
+     */
     @Basic(optional = false)
     @Column(nullable = false, length = 100)
     private String username;
+
+    /**
+     *
+     */
     @JoinColumn(name = "id_instituicao", referencedColumnName = "id_instituicao")
     @ManyToOne(fetch = FetchType.EAGER)
     private Instituicao idInstituicao;
 
+    /**
+     *
+     */
     public Usuario() {
     }
 
+    /**
+     *
+     * @param idUsuario
+     */
     public Usuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
     }
 
+    /**
+     *
+     * @param idUsuario
+     * @param nome
+     * @param senha
+     * @param username
+     */
     public Usuario(Integer idUsuario, String nome, String senha, String username) {
         this.idUsuario = idUsuario;
         this.nome = nome;
@@ -72,54 +113,106 @@ public class Usuario implements Serializable {
         this.username = username;
     }
 
+    /**
+     *
+     * @return
+     */
     public Integer getIdUsuario() {
         return idUsuario;
     }
 
+    /**
+     *
+     * @param idUsuario
+     */
     public void setIdUsuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
     }
 
+    /**
+     *
+     * @return
+     */
     public Integer getNivelPermissao() {
         return nivelPermissao;
     }
 
+    /**
+     *
+     * @param nivelPermissao
+     */
     public void setNivelPermissao(Integer nivelPermissao) {
         this.nivelPermissao = nivelPermissao;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNome() {
         return nome;
     }
 
+    /**
+     *
+     * @param nome
+     */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getSenha() {
         return senha;
     }
 
+    /**
+     *
+     * @param senha
+     */
     public void setSenha(String senha) {
         this.senha = senha;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     *
+     * @param username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     *
+     * @return
+     */
     public Instituicao getIdInstituicao() {
         return idInstituicao;
     }
 
+    /**
+     *
+     * @param idInstituicao
+     */
     public void setIdInstituicao(Instituicao idInstituicao) {
         this.idInstituicao = idInstituicao;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -127,6 +220,11 @@ public class Usuario implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -140,6 +238,10 @@ public class Usuario implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "modelo.Usuario[ idUsuario=" + idUsuario + " ]";

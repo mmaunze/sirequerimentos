@@ -32,55 +32,110 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ReintegracaoAcademica.findByAnoAcademico", query = "SELECT r FROM ReintegracaoAcademica r WHERE r.anoAcademico = :anoAcademico")})
 public class ReintegracaoAcademica implements Serializable {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
     private Long id;
+
+    /**
+     *
+     */
     @Basic(optional = false)
     @Column(name = "ano_academico", nullable = false, length = 10)
     private String anoAcademico;
+
+    /**
+     *
+     */
     @JoinColumn(name = "pedido", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Pedido pedido;
 
+    /**
+     *
+     */
     public ReintegracaoAcademica() {
     }
 
+    /**
+     *
+     * @param id
+     */
     public ReintegracaoAcademica(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @param id
+     * @param anoAcademico
+     */
     public ReintegracaoAcademica(Long id, String anoAcademico) {
         this.id = id;
         this.anoAcademico = anoAcademico;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getAnoAcademico() {
         return anoAcademico;
     }
 
+    /**
+     *
+     * @param anoAcademico
+     */
     public void setAnoAcademico(String anoAcademico) {
         this.anoAcademico = anoAcademico;
     }
 
+    /**
+     *
+     * @return
+     */
     public Pedido getPedido() {
         return pedido;
     }
 
+    /**
+     *
+     * @param pedido
+     */
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -88,6 +143,11 @@ public class ReintegracaoAcademica implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -101,6 +161,10 @@ public class ReintegracaoAcademica implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "modelo.ReintegracaoAcademica[ id=" + id + " ]";

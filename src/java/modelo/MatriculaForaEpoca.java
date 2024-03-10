@@ -32,55 +32,110 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MatriculaForaEpoca.findByAnoMatricula", query = "SELECT m FROM MatriculaForaEpoca m WHERE m.anoMatricula = :anoMatricula")})
 public class MatriculaForaEpoca implements Serializable {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
     private Long id;
+
+    /**
+     *
+     */
     @Basic(optional = false)
     @Column(name = "ano_matricula", nullable = false)
     private long anoMatricula;
+
+    /**
+     *
+     */
     @JoinColumn(name = "pedido", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Pedido pedido;
 
+    /**
+     *
+     */
     public MatriculaForaEpoca() {
     }
 
+    /**
+     *
+     * @param id
+     */
     public MatriculaForaEpoca(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @param id
+     * @param anoMatricula
+     */
     public MatriculaForaEpoca(Long id, long anoMatricula) {
         this.id = id;
         this.anoMatricula = anoMatricula;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public long getAnoMatricula() {
         return anoMatricula;
     }
 
+    /**
+     *
+     * @param anoMatricula
+     */
     public void setAnoMatricula(long anoMatricula) {
         this.anoMatricula = anoMatricula;
     }
 
+    /**
+     *
+     * @return
+     */
     public Pedido getPedido() {
         return pedido;
     }
 
+    /**
+     *
+     * @param pedido
+     */
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -88,6 +143,11 @@ public class MatriculaForaEpoca implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -101,6 +161,10 @@ public class MatriculaForaEpoca implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "modelo.MatriculaForaEpoca[ id=" + id + " ]";

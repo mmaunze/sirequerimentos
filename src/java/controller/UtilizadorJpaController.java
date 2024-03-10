@@ -8,21 +8,21 @@ import controller.exceptions.IllegalOrphanException;
 import controller.exceptions.NonexistentEntityException;
 import controller.exceptions.PreexistingEntityException;
 import java.io.Serializable;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import modelo.Secretario;
-import modelo.Cta;
-import modelo.Departamento;
-import modelo.TipoUtilizador;
-import modelo.Estudante;
-import modelo.Pedido;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import modelo.Cta;
+import modelo.Departamento;
+import modelo.Estudante;
 import modelo.Movimento;
+import modelo.Pedido;
+import modelo.Secretario;
+import modelo.TipoUtilizador;
 import modelo.Utilizador;
 
 /**
@@ -31,21 +31,39 @@ import modelo.Utilizador;
  */
 public class UtilizadorJpaController implements Serializable {
 
+
+    /**
+     *
+     */
+    private EntityManagerFactory emf = null;
+    /**
+     *
+     * @param emf
+     */
     public UtilizadorJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     *
+     * @param utilizador
+     * @throws PreexistingEntityException
+     * @throws Exception
+     */
     public void create(Utilizador utilizador) throws PreexistingEntityException, Exception {
         if (utilizador.getPedidoList() == null) {
-            utilizador.setPedidoList(new ArrayList<Pedido>());
+            utilizador.setPedidoList(new ArrayList<>());
         }
         if (utilizador.getMovimentoList() == null) {
-            utilizador.setMovimentoList(new ArrayList<Movimento>());
+            utilizador.setMovimentoList(new ArrayList<>());
         }
         EntityManager em = null;
         try {
@@ -76,13 +94,13 @@ public class UtilizadorJpaController implements Serializable {
                 estudante = em.getReference(estudante.getClass(), estudante.getUtilizador());
                 utilizador.setEstudante(estudante);
             }
-            List<Pedido> attachedPedidoList = new ArrayList<Pedido>();
+            List<Pedido> attachedPedidoList = new ArrayList<>();
             for (Pedido pedidoListPedidoToAttach : utilizador.getPedidoList()) {
                 pedidoListPedidoToAttach = em.getReference(pedidoListPedidoToAttach.getClass(), pedidoListPedidoToAttach.getId());
                 attachedPedidoList.add(pedidoListPedidoToAttach);
             }
             utilizador.setPedidoList(attachedPedidoList);
-            List<Movimento> attachedMovimentoList = new ArrayList<Movimento>();
+            List<Movimento> attachedMovimentoList = new ArrayList<>();
             for (Movimento movimentoListMovimentoToAttach : utilizador.getMovimentoList()) {
                 movimentoListMovimentoToAttach = em.getReference(movimentoListMovimentoToAttach.getClass(), movimentoListMovimentoToAttach.getId());
                 attachedMovimentoList.add(movimentoListMovimentoToAttach);
@@ -155,6 +173,13 @@ public class UtilizadorJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param utilizador
+     * @throws IllegalOrphanException
+     * @throws NonexistentEntityException
+     * @throws Exception
+     */
     public void edit(Utilizador utilizador) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -178,26 +203,26 @@ public class UtilizadorJpaController implements Serializable {
             List<String> illegalOrphanMessages = null;
             if (secretarioOld != null && !secretarioOld.equals(secretarioNew)) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("You must retain Secretario " + secretarioOld + " since its utilizador1 field is not nullable.");
             }
             if (ctaOld != null && !ctaOld.equals(ctaNew)) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("You must retain Cta " + ctaOld + " since its utilizador1 field is not nullable.");
             }
             if (estudanteOld != null && !estudanteOld.equals(estudanteNew)) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("You must retain Estudante " + estudanteOld + " since its utilizador1 field is not nullable.");
             }
             for (Pedido pedidoListOldPedido : pedidoListOld) {
                 if (!pedidoListNew.contains(pedidoListOldPedido)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain Pedido " + pedidoListOldPedido + " since its utilizador field is not nullable.");
                 }
@@ -205,7 +230,7 @@ public class UtilizadorJpaController implements Serializable {
             for (Movimento movimentoListOldMovimento : movimentoListOld) {
                 if (!movimentoListNew.contains(movimentoListOldMovimento)) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("You must retain Movimento " + movimentoListOldMovimento + " since its utilizador field is not nullable.");
                 }
@@ -233,14 +258,14 @@ public class UtilizadorJpaController implements Serializable {
                 estudanteNew = em.getReference(estudanteNew.getClass(), estudanteNew.getUtilizador());
                 utilizador.setEstudante(estudanteNew);
             }
-            List<Pedido> attachedPedidoListNew = new ArrayList<Pedido>();
+            List<Pedido> attachedPedidoListNew = new ArrayList<>();
             for (Pedido pedidoListNewPedidoToAttach : pedidoListNew) {
                 pedidoListNewPedidoToAttach = em.getReference(pedidoListNewPedidoToAttach.getClass(), pedidoListNewPedidoToAttach.getId());
                 attachedPedidoListNew.add(pedidoListNewPedidoToAttach);
             }
             pedidoListNew = attachedPedidoListNew;
             utilizador.setPedidoList(pedidoListNew);
-            List<Movimento> attachedMovimentoListNew = new ArrayList<Movimento>();
+            List<Movimento> attachedMovimentoListNew = new ArrayList<>();
             for (Movimento movimentoListNewMovimentoToAttach : movimentoListNew) {
                 movimentoListNewMovimentoToAttach = em.getReference(movimentoListNewMovimentoToAttach.getClass(), movimentoListNewMovimentoToAttach.getId());
                 attachedMovimentoListNew.add(movimentoListNewMovimentoToAttach);
@@ -330,6 +355,12 @@ public class UtilizadorJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @throws IllegalOrphanException
+     * @throws NonexistentEntityException
+     */
     public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -346,35 +377,35 @@ public class UtilizadorJpaController implements Serializable {
             Secretario secretarioOrphanCheck = utilizador.getSecretario();
             if (secretarioOrphanCheck != null) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Utilizador (" + utilizador + ") cannot be destroyed since the Secretario " + secretarioOrphanCheck + " in its secretario field has a non-nullable utilizador1 field.");
             }
             Cta ctaOrphanCheck = utilizador.getCta();
             if (ctaOrphanCheck != null) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Utilizador (" + utilizador + ") cannot be destroyed since the Cta " + ctaOrphanCheck + " in its cta field has a non-nullable utilizador1 field.");
             }
             Estudante estudanteOrphanCheck = utilizador.getEstudante();
             if (estudanteOrphanCheck != null) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Utilizador (" + utilizador + ") cannot be destroyed since the Estudante " + estudanteOrphanCheck + " in its estudante field has a non-nullable utilizador1 field.");
             }
             List<Pedido> pedidoListOrphanCheck = utilizador.getPedidoList();
             for (Pedido pedidoListOrphanCheckPedido : pedidoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Utilizador (" + utilizador + ") cannot be destroyed since the Pedido " + pedidoListOrphanCheckPedido + " in its pedidoList field has a non-nullable utilizador field.");
             }
             List<Movimento> movimentoListOrphanCheck = utilizador.getMovimentoList();
             for (Movimento movimentoListOrphanCheckMovimento : movimentoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("This Utilizador (" + utilizador + ") cannot be destroyed since the Movimento " + movimentoListOrphanCheckMovimento + " in its movimentoList field has a non-nullable utilizador field.");
             }
@@ -400,14 +431,31 @@ public class UtilizadorJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Utilizador> findUtilizadorEntities() {
         return findUtilizadorEntities(true, -1, -1);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     public List<Utilizador> findUtilizadorEntities(int maxResults, int firstResult) {
         return findUtilizadorEntities(false, maxResults, firstResult);
     }
 
+    /**
+     *
+     * @param all
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     private List<Utilizador> findUtilizadorEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -424,6 +472,11 @@ public class UtilizadorJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Utilizador findUtilizador(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -433,6 +486,10 @@ public class UtilizadorJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getUtilizadorCount() {
         EntityManager em = getEntityManager();
         try {

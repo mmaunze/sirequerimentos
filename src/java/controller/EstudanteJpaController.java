@@ -8,17 +8,17 @@ import controller.exceptions.IllegalOrphanException;
 import controller.exceptions.NonexistentEntityException;
 import controller.exceptions.PreexistingEntityException;
 import java.io.Serializable;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import modelo.Curso;
-import modelo.Utilizador;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import modelo.Curso;
 import modelo.Estudante;
+import modelo.Utilizador;
 
 /**
  *
@@ -26,15 +26,34 @@ import modelo.Estudante;
  */
 public class EstudanteJpaController implements Serializable {
 
+
+    /**
+     *
+     */
+    private EntityManagerFactory emf = null;
+    /**
+     *
+     * @param emf
+     */
     public EstudanteJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     *
+     * @param estudante
+     * @throws IllegalOrphanException
+     * @throws PreexistingEntityException
+     * @throws Exception
+     */
     public void create(Estudante estudante) throws IllegalOrphanException, PreexistingEntityException, Exception {
         List<String> illegalOrphanMessages = null;
         Utilizador utilizador1OrphanCheck = estudante.getUtilizador1();
@@ -42,7 +61,7 @@ public class EstudanteJpaController implements Serializable {
             Estudante oldEstudanteOfUtilizador1 = utilizador1OrphanCheck.getEstudante();
             if (oldEstudanteOfUtilizador1 != null) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+                    illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("The Utilizador " + utilizador1OrphanCheck + " already has an item of type Estudante whose utilizador1 column cannot be null. Please make another selection for the utilizador1 field.");
             }
@@ -86,6 +105,13 @@ public class EstudanteJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param estudante
+     * @throws IllegalOrphanException
+     * @throws NonexistentEntityException
+     * @throws Exception
+     */
     public void edit(Estudante estudante) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -101,7 +127,7 @@ public class EstudanteJpaController implements Serializable {
                 Estudante oldEstudanteOfUtilizador1 = utilizador1New.getEstudante();
                 if (oldEstudanteOfUtilizador1 != null) {
                     if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
+                        illegalOrphanMessages = new ArrayList<>();
                     }
                     illegalOrphanMessages.add("The Utilizador " + utilizador1New + " already has an item of type Estudante whose utilizador1 column cannot be null. Please make another selection for the utilizador1 field.");
                 }
@@ -151,6 +177,11 @@ public class EstudanteJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @throws NonexistentEntityException
+     */
     public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -182,14 +213,31 @@ public class EstudanteJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Estudante> findEstudanteEntities() {
         return findEstudanteEntities(true, -1, -1);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     public List<Estudante> findEstudanteEntities(int maxResults, int firstResult) {
         return findEstudanteEntities(false, maxResults, firstResult);
     }
 
+    /**
+     *
+     * @param all
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     private List<Estudante> findEstudanteEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -206,6 +254,11 @@ public class EstudanteJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Estudante findEstudante(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -215,6 +268,10 @@ public class EstudanteJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getEstudanteCount() {
         EntityManager em = getEntityManager();
         try {
